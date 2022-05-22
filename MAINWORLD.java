@@ -16,7 +16,7 @@ public class MAINWORLD extends World
      */
     public MAINWORLD()
     {    
-        super((1366 / 10) * 8, (768 / 10) * 8, 1);
+        super((1920 / 10) * 8, (1080 / 10) * 8, 1);
         top_left = new POSITION(0,0);
     }
     
