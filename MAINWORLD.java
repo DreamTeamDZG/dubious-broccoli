@@ -27,8 +27,61 @@ public class MAINWORLD extends World
         }
     }
     
-    public void move_world(int x, int y){
-        top_left.add(new POSITION(x, y));
+    public void move_world(DIRECTION direction){
+        top_left.add(direction_to_position(inverse_direction(direction)));
         update_view();
+    }
+    public static DIRECTION inverse_direction(DIRECTION direction)
+    {
+        switch(direction)
+        {
+            case NORTH:
+                return DIRECTION.SOUTH;
+            case NORTH_EAST:
+                return DIRECTION.SOUTH_WEST;
+            case EAST:
+                return DIRECTION.WEST;
+            case SOUTH_EAST:
+                return DIRECTION.NORTH_WEST;
+            case SOUTH:
+                return DIRECTION.NORTH;
+            case SOUTH_WEST:
+                return DIRECTION.NORTH_EAST;
+            case WEST:
+                return DIRECTION.EAST;
+            case NORTH_WEST:
+                return DIRECTION.SOUTH_EAST;
+            case ZERO:
+                return DIRECTION.ZERO;
+        }
+        // error with compiler
+        return null;
+    }
+    //direction converts to position of X and Y
+    public static POSITION direction_to_position(DIRECTION direction)
+    {
+        switch(direction)
+        {
+            case NORTH:
+                return new POSITION (0,1);
+            case NORTH_EAST:
+                return new POSITION (1,1);
+            case EAST:
+                return new POSITION (1,0);
+            case SOUTH_EAST:
+                return new POSITION (1,-1);
+            case SOUTH:
+                return new POSITION (0,-1);
+            case SOUTH_WEST:
+                return new POSITION (-1,-1);
+            case WEST:
+                return new POSITION (-1,0);
+            case NORTH_WEST:
+                return new POSITION (1,-1);
+            case ZERO:
+                return new POSITION (0,0);
+        }
+        //error with compiler
+        return null;
     }
 }
