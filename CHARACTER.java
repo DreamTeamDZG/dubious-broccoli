@@ -39,6 +39,7 @@ public class CHARACTER extends Actor
     
     private void control()
     {
+<<<<<<< HEAD
         //System.out.println("test");
         DIRECTION direction_x = DIRECTION.ZERO;
         DIRECTION direction_y = DIRECTION.ZERO;
@@ -61,6 +62,25 @@ public class CHARACTER extends Actor
         {
             direction_y = add_directions(direction_y, DIRECTION.NORTH);   
             System.out.println("s");
+=======
+        DIRECTION direction_x= DIRECTION.ZERO;
+        DIRECTION direction_y= DIRECTION.ZERO;
+        if(Greenfoot.isKeyDown("a"))
+        {
+            direction_x = add_directions(direction_x, DIRECTION.WEST);
+        }
+        if(Greenfoot.isKeyDown("d"))
+        {
+            direction_x = add_directions(direction_x, DIRECTION.EAST);    
+        }
+        if(Greenfoot.isKeyDown("w"))
+        {
+            direction_y = add_directions(direction_y, DIRECTION.NORTH);
+        }
+        if(Greenfoot.isKeyDown("s"))
+        {
+            direction_y = add_directions(direction_y, DIRECTION.SOUTH);   
+>>>>>>> a9b027639f5c83bd6d27dbcaad4f09bf8efb31ba
         }
         ((MAINWORLD) getWorld()).move_world(add_directions(direction_x,direction_y));
     }
