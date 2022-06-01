@@ -29,24 +29,15 @@ dependency7.type=UsesDependency
 dependency8.from=CHARACTER
 dependency8.to=POSITION
 dependency8.type=UsesDependency
-<<<<<<< HEAD
 dependency9.from=CHARACTER
 dependency9.to=DIRECTION
 dependency9.type=UsesDependency
-editor.fx.0.height=1056
-editor.fx.0.width=1936
+editor.fx.0.height=744
+editor.fx.0.width=1382
 editor.fx.0.x=-8
-editor.fx.0.y=-8
-height=1056
+editor.fx.0.y=32
+height=744
 package.numDependencies=10
-=======
-editor.fx.0.height=0
-editor.fx.0.width=0
-editor.fx.0.x=0
-editor.fx.0.y=0
-height=788
-package.numDependencies=8
->>>>>>> a9b027639f5c83bd6d27dbcaad4f09bf8efb31ba
 package.numTargets=6
 project.charset=UTF-8
 publish.hasSource=false
@@ -105,14 +96,7 @@ target6.width=120
 target6.x=0
 target6.y=0
 version=3.0.0
-<<<<<<< HEAD
-width=1936
+width=1382
 world.lastInstantiated=MAINWORLD
 xPosition=0
-yPosition=0
-=======
-width=1386
-world.lastInstantiated=MAINWORLD
-xPosition=0
-yPosition=93
->>>>>>> a9b027639f5c83bd6d27dbcaad4f09bf8efb31ba
+yPosition=32
