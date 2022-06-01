@@ -37,6 +37,6 @@ public class POSITION
     
     public void add(POSITION p){
         x = x + p.get_x();
-        y = y + p.get_x();
+        y = y + p.get_y();
     }
 }

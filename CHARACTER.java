@@ -11,10 +11,10 @@ public class CHARACTER extends Actor
     POSITION position;
     private String name;
     
-    CHARACTER(POSITION position, String name)
+    CHARACTER(POSITION position)
     {
         this.position = position;
-        this.name = name;
+        this.name = "blub";
     }
     
     public POSITION get_position()
@@ -39,24 +39,30 @@ public class CHARACTER extends Actor
     
     private void control()
     {
-        DIRECTION direction= DIRECTION.ZERO;
+        //System.out.println("test");
+        DIRECTION direction_x = DIRECTION.ZERO;
+        DIRECTION direction_y = DIRECTION.ZERO;
         if(Greenfoot.isKeyDown("a"))
         {
-            direction = add_directions(direction, DIRECTION.WEST);
+            direction_x = add_directions(direction_x, DIRECTION.WEST);
+            System.out.println("a");
         }
         if(Greenfoot.isKeyDown("d"))
         {
-            direction = add_directions(direction, DIRECTION.EAST);    
+            direction_x = add_directions(direction_x, DIRECTION.EAST);
+            System.out.println("d");
         }
         if(Greenfoot.isKeyDown("w"))
         {
-            direction = add_directions(direction, DIRECTION.NORTH);
+            direction_y = add_directions(direction_y, DIRECTION.SOUTH);
+            System.out.println("w");
         }
         if(Greenfoot.isKeyDown("s"))
         {
-            direction = add_directions(direction, DIRECTION.SOUTH);   
+            direction_y = add_directions(direction_y, DIRECTION.NORTH);   
+            System.out.println("s");
         }
-        ((MAINWORLD) getWorld()).move_world(direction);
+        ((MAINWORLD) getWorld()).move_world(add_directions(direction_x,direction_y));
     }
     
     public static DIRECTION add_directions(DIRECTION d_1, DIRECTION d_2)

@@ -16,11 +16,15 @@ public class MAINWORLD extends World
      */
     public MAINWORLD()
     {    
-        super((1366 / 10) * 8, (768 / 10) * 8, 1);
+        super((1920 / 10) * 8, (1080 / 10) * 8, 1);
         top_left = new POSITION(0,0);
+        addObject(new CHARACTER(new POSITION(20,20)), 300, 300);
+        addObject(new BACKGROUND(), 300, 300);
+        setPaintOrder(CHARACTER.class, BACKGROUND.class);
     }
     
     public void update_view(){
+        System.out.println("updateView");
         List<ENTITY> entities = getObjects(ENTITY.class);
         for(ENTITY e : entities){
             e.setLocation(e.get_x() - top_left.get_x(), e.get_y() - top_left.get_y());
@@ -28,7 +32,8 @@ public class MAINWORLD extends World
     }
     
     public void move_world(DIRECTION direction){
-        top_left.add(direction_to_position(inverse_direction(direction)));
+        top_left.add(direction_to_position(direction));
+        System.out.println("top left"+top_left.get_x() + "|" + top_left.get_y());
         update_view();
     }
     public static DIRECTION inverse_direction(DIRECTION direction)
