@@ -11,15 +11,18 @@ public class CHARACTER extends Actor
     POSITION position;
     private String name;
     DIRECTION current_direction;
-    GreenfootImage [] g_i;
-    String [] paths_to_image;
+    GreenfootImage[] g_i;
+    String[] paths_to_image = {"char/back/cs_back.png","char/right/cs_right.png","char/front/cs_front.png","char/left/cs_left.png"};
     CHARACTER(POSITION position)
     {
         this.position = position;
         this.name = "blub";
         current_direction = DIRECTION.ZERO;
         g_i = new GreenfootImage[4];
-        paths_to_image = new String[4];
+        for(int i=0;i<4;i++)
+        {
+            g_i[i]= new GreenfootImage(paths_to_image[i]);
+        }
     }
     
     public POSITION get_position()
@@ -48,28 +51,47 @@ public class CHARACTER extends Actor
         {
             case NORTH:
                 setImage(g_i[0]);
+                System.out.println("NORTH");
+                break;
             case NORTH_EAST:
                 setImage(g_i[0]);
+                System.out.println("NORTH_EAST");
+                break;
             case EAST:
                 setImage(g_i[1]);
+                System.out.println("EAST");
+                break;
             case SOUTH_EAST:
                 setImage(g_i[2]);
+                System.out.println("SOUTH_EAST");
+                break;
             case SOUTH:
                 setImage(g_i[2]);
+                System.out.println("SOUTH");
+                break;
             case SOUTH_WEST:
                 setImage(g_i[2]);
+                System.out.println("SOUTH_WEST");
+                break;
             case WEST:
                 setImage(g_i[3]);
+                System.out.println("WEST");
+                break;
             case NORTH_WEST:
-                setImage(g_i[0]);   
+                setImage(g_i[0]);
+                System.out.println("NORTH_WEST");
+                break;
             case ZERO:
                 setImage(g_i[0]);
+                System.out.println("ZERO");
+                break;
         }
     }
+    
     private void control()
     {
-        DIRECTION direction_x= DIRECTION.ZERO;
-        DIRECTION direction_y= DIRECTION.ZERO;
+        DIRECTION direction_x = DIRECTION.ZERO;
+        DIRECTION direction_y = DIRECTION.ZERO;
         if(Greenfoot.isKeyDown("a"))
         {
             direction_x = add_directions(direction_x, DIRECTION.WEST);
@@ -80,13 +102,14 @@ public class CHARACTER extends Actor
         }
         if(Greenfoot.isKeyDown("w"))
         {
-            direction_y = add_directions(direction_y, DIRECTION.SOUTH);
+            direction_y = add_directions(direction_y, DIRECTION.NORTH);
         }
         if(Greenfoot.isKeyDown("s"))
         {
-            direction_y = add_directions(direction_y, DIRECTION.NORTH);   
+            direction_y = add_directions(direction_y, DIRECTION.SOUTH);   
         }
-        ((MAINWORLD) getWorld()).move_world(add_directions(direction_x,direction_y));
+        current_direction = add_directions(direction_x,direction_y);
+        ((MAINWORLD) getWorld()).move_world(current_direction);
     }
     
     public static DIRECTION add_directions(DIRECTION d_1, DIRECTION d_2)
@@ -175,6 +198,6 @@ public class CHARACTER extends Actor
     public void act()
     {
         control();
-        
+        loadImage();
     }
 }
