@@ -35,8 +35,16 @@ public class POSITION
         this.y = y;
     }
     
+    public void inverse_x(){
+        x = -x;
+    }
+    
+    public void inverse_y(){
+        y = -y;
+    }
+
     public void add(POSITION p){
         x = x + p.get_x();
-        y = y + p.get_x();
+        y = y + p.get_y();
     }
 }
