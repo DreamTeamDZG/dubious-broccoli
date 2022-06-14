@@ -10,6 +10,7 @@ public class CHARACTER extends Actor
 {
     POSITION position;
     private String name;
+
     DIRECTION current_direction;
     GreenfootImage[] g_i;
     String[] paths_to_image = {"char/back/cs_back.png","char/right/cs_right.png","char/front/cs_front.png","char/left/cs_left.png"};
@@ -23,6 +24,13 @@ public class CHARACTER extends Actor
         {
             g_i[i]= new GreenfootImage(paths_to_image[i]);
         }
+
+    
+    CHARACTER(POSITION position, String name)
+    {
+        this.position = position;
+        this.name = name;
+
     }
     
     public POSITION get_position()
@@ -45,6 +53,7 @@ public class CHARACTER extends Actor
         this.name = name;
     }
     
+
     public void loadImage()
     {
         switch(current_direction)
@@ -92,6 +101,12 @@ public class CHARACTER extends Actor
     {
         DIRECTION direction_x = DIRECTION.ZERO;
         DIRECTION direction_y = DIRECTION.ZERO;
+
+    private void control()
+    {
+        DIRECTION direction_x= DIRECTION.ZERO;
+        DIRECTION direction_y= DIRECTION.ZERO;
+
         if(Greenfoot.isKeyDown("a"))
         {
             direction_x = add_directions(direction_x, DIRECTION.WEST);
@@ -108,8 +123,12 @@ public class CHARACTER extends Actor
         {
             direction_y = add_directions(direction_y, DIRECTION.SOUTH);   
         }
+
         current_direction = add_directions(direction_x,direction_y);
         ((MAINWORLD) getWorld()).move_world(current_direction);
+
+        ((MAINWORLD) getWorld()).move_world(add_directions(direction_x,direction_y));
+
     }
     
     public static DIRECTION add_directions(DIRECTION d_1, DIRECTION d_2)
@@ -198,6 +217,8 @@ public class CHARACTER extends Actor
     public void act()
     {
         control();
+
         loadImage();
+
     }
 }

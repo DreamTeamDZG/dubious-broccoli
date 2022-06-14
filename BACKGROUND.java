@@ -14,6 +14,5 @@ public class BACKGROUND extends ENTITY
      */
     public void act()
     {
-        //System.out.println("background pos " + getX()+ "|" + getY());
     }
 }
