@@ -18,7 +18,7 @@ public class MAINWORLD extends World
     {    
         super((1920 / 10) * 8, (1080 / 10) * 8, 1);
         top_left = new POSITION(0,0);
-        addObject(new CHARACTER(new POSITION(20,20)), 300, 300);
+        addObject(new CHARACTER(new POSITION(20,20)), ((1920 / 10) * 8)/2, ((1080 / 10) * 8)/2);
         addObject(new BACKGROUND(), 300, 300);
         setPaintOrder(CHARACTER.class, BACKGROUND.class);
     }
@@ -27,13 +27,15 @@ public class MAINWORLD extends World
         System.out.println("updateView");
         List<ENTITY> entities = getObjects(ENTITY.class);
         for(ENTITY e : entities){
-            e.setLocation(e.get_x() - top_left.get_x(), e.get_y() - top_left.get_y());
+            e.setLocation((e.get_x() - top_left.get_x()),(e.get_y() - top_left.get_y()));
         }
     }
     
     public void move_world(DIRECTION direction){
-        top_left.add(direction_to_position(direction));
-        System.out.println("top left"+top_left.get_x() + "|" + top_left.get_y());
+        POSITION direction_pos = direction_to_position(direction);
+        direction_pos.inverse_y();
+        top_left.add(direction_pos);
+        System.out.println("top left "+top_left.get_x() + "|" + top_left.get_y());
         update_view();
     }
     public static DIRECTION inverse_direction(DIRECTION direction)
@@ -82,7 +84,7 @@ public class MAINWORLD extends World
             case WEST:
                 return new POSITION (-1,0);
             case NORTH_WEST:
-                return new POSITION (1,-1);
+                return new POSITION (-1,1);
             case ZERO:
                 return new POSITION (0,0);
         }
