@@ -48,6 +48,11 @@ public abstract class ENTITY extends Actor
         return position;
     }
     
+    public void set_position(POSITION position){
+        this.position = position;
+        
+    }
+    
     public int get_x(){
         return position.get_x();
     }

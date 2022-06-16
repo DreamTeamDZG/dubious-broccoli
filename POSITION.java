@@ -47,4 +47,8 @@ public class POSITION
         x = x + p.get_x();
         y = y + p.get_y();
     }
+    
+    public static POSITION add(POSITION p_1, POSITION p_2){
+        return new POSITION(p_1.get_x() + p_2.get_x(), p_1.get_y() + p_2.get_y());
+    }
 }
