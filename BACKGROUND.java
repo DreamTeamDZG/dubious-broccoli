@@ -14,6 +14,5 @@ public class BACKGROUND extends ENTITY
      */
     public void act()
     {
-        // Add your action code here.
     }
 }
