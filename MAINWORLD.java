@@ -88,11 +88,7 @@ public class MAINWORLD extends World
             case WEST:
                 return new POSITION (-1,0);
             case NORTH_WEST:
-
                 return new POSITION (-1,1);
-
-                return new POSITION (1,-1);
-
             case ZERO:
                 return new POSITION (0,0);
         }

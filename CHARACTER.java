@@ -24,13 +24,6 @@ public class CHARACTER extends Actor
         {
             g_i[i]= new GreenfootImage(paths_to_image[i]);
         }
-
-    
-    CHARACTER(POSITION position, String name)
-    {
-        this.position = position;
-        this.name = name;
-
     }
     
     public POSITION get_position()
@@ -101,12 +94,7 @@ public class CHARACTER extends Actor
     {
         DIRECTION direction_x = DIRECTION.ZERO;
         DIRECTION direction_y = DIRECTION.ZERO;
-
-    private void control()
-    {
-        DIRECTION direction_x= DIRECTION.ZERO;
-        DIRECTION direction_y= DIRECTION.ZERO;
-
+        
         if(Greenfoot.isKeyDown("a"))
         {
             direction_x = add_directions(direction_x, DIRECTION.WEST);
@@ -126,9 +114,6 @@ public class CHARACTER extends Actor
 
         current_direction = add_directions(direction_x,direction_y);
         ((MAINWORLD) getWorld()).move_world(current_direction);
-
-        ((MAINWORLD) getWorld()).move_world(add_directions(direction_x,direction_y));
-
     }
     
     public static DIRECTION add_directions(DIRECTION d_1, DIRECTION d_2)
