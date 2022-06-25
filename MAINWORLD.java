@@ -1,5 +1,9 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import greenfoot.core.WorldHandler;
 import java.util.List;
+import java.util.ArrayList;
+import javax.swing.*;
+import java.awt.event.*;
 
 /**
  * Write a description of class MAINWORLD here.
@@ -10,6 +14,14 @@ import java.util.List;
 public class MAINWORLD extends World
 {
     private POSITION top_left;
+    
+    // public as it is used in CHARACTER
+    public static final POSITION border_top_left = new POSITION(0,0);
+    public static final POSITION border_bottom_right = new POSITION(999, 999);
+    public static final int block_size = 16;
+    
+    private List<ENTITY> entities;
+    private CHARACTER character;
 
     private CLOCK clock;
     private COORDINATES coordinates;
@@ -20,7 +32,6 @@ public class MAINWORLD extends World
     private static final int screen_size_x = (1920 / 10) * 8;
     private static final int screen_size_y = (1080 / 10) * 8;
     //1
-    private GreenfootImage img = new GreenfootImage("sandstone.jpg");
     //
     private boolean huds_added = false;
     /**
@@ -31,31 +42,100 @@ public class MAINWORLD extends World
     {    
         super(screen_size_x, screen_size_y, 1);
         top_left = new POSITION(0,0);
-        addObject(new CHARACTER(new POSITION(20,20)), ((1920 / 10) * 8)/2, ((1080 / 10) * 8)/2);
-        addObject(new BACKGROUND(), 300, 300);
-        setPaintOrder(CHARACTER.class, BACKGROUND.class);
+        POSITION middle = new POSITION(screen_size_x/2, screen_size_y/2);
+        entities = new ArrayList<ENTITY>();
+        addObject(new CHARACTER(middle), middle.get_x(), middle.get_y());
+        add_entity(new BACKGROUND());
+        setPaintOrder(CHARACTER.class, ENTITY.class, BACKGROUND.class);
     }
 
     public void update_view(){
         System.out.println("updateView");
-        List<ENTITY> entities = getObjects(ENTITY.class);
+        if(entities == null){
+            return;
+        }
         for(ENTITY e : entities){
-            e.setLocation((e.get_x() - top_left.get_x()),(e.get_y() - top_left.get_y()));
+            try
+            {
+                POSITION pos_screen = (POSITION) e.get_position().clone();
+                pos_screen.subtract(top_left);
+                e.set_location(pos_screen);
+            }
+            catch (CloneNotSupportedException cnse)
+            {
+                System.out.println("CloneNotSupportedExcpetion"+ cnse);
+            }
         }
     }
-
-    public void move_world(DIRECTION direction){
-
-        POSITION direction_pos = direction_to_position(direction);
-        direction_pos.inverse_y();
-        top_left.add(direction_pos);
-        System.out.println("top left "+top_left.get_x() + "|" + top_left.get_y());
-
-        top_left.add(direction_to_position(inverse_direction(direction)));
-
+    
+    public void add_entity(ENTITY entity){
+        System.out.println("adding entity");
+        if(!entities.contains(entity)){
+            entities.add(entity);
+        }
+        addObject(entity, 0, 0);
         update_view();
     }
 
+    public void move_world(DIRECTION direction){
+        POSITION direction_pos = direction_to_position(direction);
+        direction_pos = character.move_vec(direction_pos);
+        direction_pos.inverse_y();
+        top_left.add(direction_pos);
+        //System.out.println("top left "+top_left.get_x() + "|" + top_left.get_y());
+        
+        update_view();
+    }
+    
+    public void select_next_slot(){
+        inventory.select_next_slot();
+    }
+    
+    public void select_prev_slot(){
+        inventory.select_prev_slot();
+    }
+
+    public BLOCK get_selected_item(){
+        return inventory.get_selected_item();
+    }
+    
+    public BLOCK retrieve_selected_item(){
+        BLOCK item = inventory.retrieve_selected_item();
+        if(!entities.contains(item)){
+            entities.add(item);
+        }
+        return item;
+    }
+    
+    public boolean add_item(BLOCK item){
+        if(entities.contains(item)){
+            entities.remove(item);
+        }
+        return inventory.add_item(item);
+    }
+    
+    public void delete_block(BLOCK block){
+        if(entities.contains(block)){
+            entities.remove(block);
+        }
+        removeObject(block);
+    }
+    
+    public BLOCK get_block_at(POSITION position){
+        position.subtract(top_left);
+        List<BLOCK> blocks = getObjectsAt(position.get_x(), position.get_y(), BLOCK.class);
+        switch(blocks.size()){
+            case 0:
+                System.out.println("no block found at x:" + position.get_x()+ "y:" + position.get_y());
+                return null;
+            case 1:
+                return blocks.get(0);
+            default:
+                System.out.println("to many(" + blocks.size() + " )blocks found at x:" + position.get_x()+ "y:" + position.get_y());
+                return null;
+        }
+    }
+    
     public static DIRECTION inverse_direction(DIRECTION direction)
     {
         switch(direction)
@@ -109,17 +189,21 @@ public class MAINWORLD extends World
         //error with compiler
         return null;
     }
+    
+    public CHARACTER get_character(){
+        return character;
+    }
 
     public void act(){
         // cheats
-        add_item();
-        change_weather();
+        add_item_cheat();
+        change_weather_cheat();
         //cheats
         clock.update_time();
         coordinates.update_position(this);
     }
 
-    public void change_weather(){
+    public void change_weather_cheat(){
         if(Greenfoot.isKeyDown("M")){
             System.out.println("M");
             switch(weathershower.get_weather()){
@@ -136,7 +220,7 @@ public class MAINWORLD extends World
         }
     }
 
-    public void add_item(){
+    public void add_item_cheat(){
         if(Greenfoot.isKeyDown("O")){
             if (inventory.add_item(new STONE())){
                 System.out.println("adding Stone worked");
@@ -169,13 +253,10 @@ public class MAINWORLD extends World
     }
 
     public void started(){
+        character = getObjects(CHARACTER.class).get(0);
         add_huds();
     }
-
-    public void add_stone(){
-        inventory.add_item(new STONE());
-    }
-
+    
     public void add_huds(){
         if(huds_added){
             return;
@@ -188,7 +269,7 @@ public class MAINWORLD extends World
     }
 
     private void add_inventory(){
-        inventory = new INVENTORY(new GreenfootImage("/inventory/inv_slot_big.png"));
+        inventory = new INVENTORY(new GreenfootImage("/inventory/inv_slot_big.png"), new GreenfootImage("/inventory/inv_slot_big.png"));
         inventory.init(getWidth(), getHeight(), this);
     }
 
@@ -203,8 +284,23 @@ public class MAINWORLD extends World
     }
 
     private void add_weathershower(){
-        weathershower = new WEATHERSHOWER("/huds/weathershower");
+        weathershower = new WEATHERSHOWER("hud/weather");
         int x = getWidth()-CLOCK.get_width_static() - weathershower.get_width() - 10;
         weathershower.init(this, new POSITION(x, 20));
     }
+    
+    /*
+    public void mouseWheelMoved(MouseWheelEvent e){
+        System.out.println("MouseWheel");
+        int rot = e.getWheelRotation();
+        if(rot > 0){
+            for(int i = 0;i<rot; i++){
+                select_next_slot();
+            }
+        } else if (rot < 0){
+            for(int i = 0;i<(-rot); i++){
+                select_next_slot();
+            }
+        }
+    }*/
 }
