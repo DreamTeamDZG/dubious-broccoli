@@ -11,7 +11,7 @@ public class INVENTORYSLOT extends Actor
     private int height;
     private int width;
 
-    private ITEM item;
+    private BLOCK item;
     private int count;
     private static final int max = 9;
 
@@ -33,7 +33,7 @@ public class INVENTORYSLOT extends Actor
         digit = new DIGIT(y_size);
     }
 
-    public boolean add(ITEM item){
+    public boolean add(BLOCK item){
         if(this.item == null){
             add_item(item);
             ensure_item_in_world(item.get_icon());
@@ -49,7 +49,7 @@ public class INVENTORYSLOT extends Actor
         return false;
     }
 
-    private void add_item(ITEM item){
+    private void add_item(BLOCK item){
         ensure_digit_in_world();
         this.item = item;
         count++;
@@ -75,7 +75,7 @@ public class INVENTORYSLOT extends Actor
         item_icon = new IMAGESHOWER((int)(height * icon_size_ratio));
     }
 
-    public ITEM get_item(){
+    public BLOCK get_item(){
         return item;
     }
 
@@ -83,8 +83,8 @@ public class INVENTORYSLOT extends Actor
         return count;
     }
 
-    public ITEM retrieve_item(){
-        ITEM return_item = null;
+    public BLOCK retrieve_item(){
+        BLOCK return_item = null;
         if(count > 0){
             count--;
             return_item = get_item();
