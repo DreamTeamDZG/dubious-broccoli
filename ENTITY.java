@@ -48,9 +48,15 @@ public abstract class ENTITY extends Actor
         return position;
     }
     
+    // set position in world
     public void set_position(POSITION position){
         this.position = position;
-        
+    }
+    
+    
+    //set location on screen
+    public void set_location(POSITION position){
+        setLocation(position.get_x(), position.get_y());
     }
     
     public int get_x(){
