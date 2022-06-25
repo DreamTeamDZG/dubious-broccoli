@@ -19,7 +19,8 @@ public class WEATHERSHOWER extends Actor
     
     public WEATHERSHOWER(String path){
         sunny = new GreenfootImage(path + "/sunny.jpeg");
-        double width_over_height = sunny.getWidth() / sunny.getHeight();
+        double width_over_height = ((double)sunny.getWidth()) / ((double)sunny.getHeight());
+        System.out.println("width_over_height"+ width_over_height + " "+sunny.getWidth()+" "+sunny.getHeight());
         POSITION scale = new POSITION((int)(((double)y_size)* width_over_height), y_size);
         sunny.scale(scale.get_x(), scale.get_y());
         rainy = new GreenfootImage(path + "/rainy.jpeg");
