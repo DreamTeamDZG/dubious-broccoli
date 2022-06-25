@@ -17,7 +17,7 @@ public class DIGIT extends Actor
         visible = true;
         images = new GreenfootImage[10];
         for(int i = 0; i <= 9; i++){
-            GreenfootImage image = new GreenfootImage("inventory/numbers_and_symbols/number_"+paths[i]);
+            GreenfootImage image = new GreenfootImage("hud/numbers_and_symbols/number_"+paths[i]);
             double width_over_height = image.getWidth() / image.getHeight();
             image.scale((int) (y_size * width_over_height),(int) y_size);   
             images[i]= image;

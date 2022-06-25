@@ -25,10 +25,10 @@ public class CLOCK
     
     private IMAGESHOWER day_colon;
     // replace this with the new texture
-    private static final String day_colon_path = "inventory/numbers_and_symbols/symbol_colon.png";
+    private static final String day_colon_path = "hud/numbers_and_symbols/tag_symbol.png";
     
     private IMAGESHOWER colon;
-    private static final String colon_path = "inventory/numbers_and_symbols/symbol_colon.png";
+    private static final String colon_path = "hud/numbers_and_symbols/symbol_colon.png";
     // 1000 millis = 1 minute in this case to make time move faster
 
     private Instant last;
@@ -80,7 +80,7 @@ public class CLOCK
         POSITION day_colon_pos = POSITION.add(position, new POSITION(0, max_height));
         day_colon = new IMAGESHOWER(day_colon_path,y_size);
         main_world.addObject(day_colon, 0, 0);
-        day_colon.set_position(day_colon_pos);
+        day_colon.set_position(POSITION.add(day_colon_pos, new POSITION(5, -22)));
         System.out.println("created display day colon");
         
         

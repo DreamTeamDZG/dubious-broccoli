@@ -20,8 +20,8 @@ public class COORDINATES
     private static final int y_size = 30;
     private static final int seperator_x = 10;
     
-    private static final String x_equals_path = "inventory/hud/x_equals_symbol.png";
-    private static final String y_equals_path = "inventory/hud/y_equals_symbol.png";
+    private static final String x_equals_path = "hud/numbers_and_symbols/x_equals_symbol.png";
+    private static final String y_equals_path = "hud/numbers_and_symbols/y_equals_symbol.png";
     private static final int y_offset_equals = 9;
     private static final int x_offset_equals = 25;
     
@@ -36,7 +36,7 @@ public class COORDINATES
         main_world.addObject(x_equals, x_equals_position.get_x() + x_offset_equals, x_equals_position.get_y() + y_offset_equals);
         
         POSITION x_position = POSITION.add(position, new POSITION(x_equals.get_width(), 0));
-        x = new NUMBER(x_position, y_size, 2, 0);
+        x = new NUMBER(x_position, y_size, 3, 0);
         x.init(main_world);
         
         
@@ -46,13 +46,13 @@ public class COORDINATES
         main_world.addObject(y_equals, y_equals_position.get_x() + x_offset_equals, y_equals_position.get_y() + y_offset_equals);
         
         POSITION y_position = POSITION.add(y_equals_position, new POSITION(y_equals.get_width(),0));
-        y = new NUMBER(y_position, y_size, 2, 0);
+        y = new NUMBER(y_position, y_size, 3, 0);
         y.init(main_world);
     }
     public void update_position(MAINWORLD main_world){
-        //PLAYER player = main_world.getObjects(PLAYER.class).get(0); // should only be one
-        int x_coordinate = 25;//player.get_x();
-        int y_coordinate = 12;//player.get_y();
+        POSITION character_pos= main_world.get_character().get_position(); // should only be one
+        int x_coordinate = character_pos.get_x();
+        int y_coordinate = character_pos.get_y();
         x.set_number(x_coordinate);
         y.set_number(y_coordinate);
         //main_world.showText("h", position.get_x(), position.get_y());
