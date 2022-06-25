@@ -4,7 +4,7 @@
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class POSITION  
+public class POSITION implements Cloneable
 {
     // instance variables - replace the example below with your own
     private int x;
@@ -42,13 +42,32 @@ public class POSITION
     public void inverse_y(){
         y = -y;
     }
+    
+    public void inverse(){
+        y = -y;
+        x = -x;
+    }
 
     public void add(POSITION p){
         x = x + p.get_x();
         y = y + p.get_y();
     }
     
+    public void subtract(POSITION p){
+        x = x - p.get_x();
+        y = y - p.get_y();
+    }
+    
     public static POSITION add(POSITION p_1, POSITION p_2){
         return new POSITION(p_1.get_x() + p_2.get_x(), p_1.get_y() + p_2.get_y());
     }
+    
+    public static POSITION subtract(POSITION minuend, POSITION subtrahend){
+        return new POSITION(minuend.get_x() - subtrahend.get_y(), minuend.get_y() - subtrahend.get_y());
+    }
+    
+    protected Object clone() throws CloneNotSupportedException{
+        return super.clone();
+    }
+    
 }
