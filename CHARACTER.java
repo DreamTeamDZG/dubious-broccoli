@@ -11,6 +11,8 @@ public class CHARACTER extends Actor
     POSITION position;
     private String name;
 
+    public static final double pickup_range = 8;
+    
     private boolean wheel_pressed; // two events on press
     DIRECTION current_direction;
 
@@ -149,6 +151,10 @@ public class CHARACTER extends Actor
 
             }
         }
+    }
+    
+    public void pick_up_items(){
+        ((MAINWORLD) getWorld()).pick_up_items();
     }
 
     
@@ -328,6 +334,6 @@ public class CHARACTER extends Actor
         control();
         mouse_interactions();
         loadImage();
-
+        pick_up_items();
     }
 }

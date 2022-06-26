@@ -136,6 +136,21 @@ public class MAINWORLD extends World
         }
     }
     
+    public void pick_up_items(){
+        for(ENTITY e: entities){
+            if(e instanceof BLOCK){
+                BLOCK b = (BLOCK) e;
+                if(b.get_mode() == BLOCKMODE.ITEM){
+                    if(b.get_position().get_distance_to(character.get_position()) < CHARACTER.pickup_range){
+                        if (inventory.add_item(b)){
+                            delete_block(b);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     public static DIRECTION inverse_direction(DIRECTION direction)
     {
         switch(direction)
