@@ -51,6 +51,7 @@ public abstract class BLOCK extends ENTITY
         this.mode = mode;
     }
     
+
     public BLOCKMODE get_mode(){
         return mode;
     }

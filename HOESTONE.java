@@ -14,7 +14,11 @@ public class HOESTONE extends HOE
     }
     
     public static BLOCK[] get_ingredients(){
-        BLOCK[] ingredients = new BLOCK[]{new STONE(), new WOOD()};
         return ingredients;
     }
+
+    public double get_speed_multiplier(){
+        return 1.5;
+    }
+
 }

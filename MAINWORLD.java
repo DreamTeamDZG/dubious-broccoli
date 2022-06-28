@@ -81,6 +81,16 @@ public class MAINWORLD extends World
         System.out.println("adding entity");
         if(!entities.contains(entity)){
             entities.add(entity);
+
+        }
+        addObject(entity, 0, 0);
+        update_view();
+    }
+    
+    public void add_entity(ENTITY entity){
+        System.out.println("adding entity");
+        if(!entities.contains(entity)){
+            entities.add(entity);
         }
         addObject(entity, 0, 0);
         update_view();
@@ -116,10 +126,11 @@ public class MAINWORLD extends World
         return item;
     }
     
+
     public BLOCK retrieve_item(BLOCK item){
         return inventory.retrieve_item(item);
     }
-    
+
     public boolean add_item(BLOCK item){
         if(entities.contains(item)){
             entities.remove(item);
@@ -149,6 +160,7 @@ public class MAINWORLD extends World
         }
     }
     
+
     public void pick_up_items(){
         for(ENTITY e: entities){
             if(e instanceof BLOCK){
@@ -173,7 +185,7 @@ public class MAINWORLD extends World
         }
         return true;
     }
-    
+
     public static DIRECTION inverse_direction(DIRECTION direction)
     {
         switch(direction)

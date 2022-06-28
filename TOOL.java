@@ -8,6 +8,7 @@ import greenfoot.*;
 public abstract class TOOL extends BLOCK
 {
     // instance variables - replace the example below with your own
+
     /**
      * Constructor for objects of class TOOL
      */

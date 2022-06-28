@@ -11,6 +11,7 @@ public abstract class PLANT extends BLOCK
 {
     private int growth_stage = 0;
     protected GreenfootImage[] growth_stage_image;
+
     private IMAGESHOWER image;
     
     private static int y_offset = 8;

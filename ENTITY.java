@@ -65,6 +65,7 @@ public abstract class ENTITY extends Actor
     
     public boolean get_visible(){
         return visible;
+
     }
     
     public int get_x(){
