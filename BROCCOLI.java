@@ -9,8 +9,13 @@ public class BROCCOLI extends PLANT
 {
     private GreenfootImage icon;
     private GreenfootImage image;
+    // array dubious images
+    // growth_stage 5 -> dubious image
+    
+    private int dubiousness;
     public BROCCOLI(){
         super("",0);
+        
     }
     
     
