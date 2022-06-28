@@ -8,7 +8,13 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class HOESTONE extends HOE
 {
+    private static final BLOCK[] ingredients = new BLOCK[]{new STONE(), new WOOD()};
     public double get_speed_multiplier(){
         return 1.5;
+    }
+    
+    public static BLOCK[] get_ingredients(){
+        BLOCK[] ingredients = new BLOCK[]{new STONE(), new WOOD()};
+        return ingredients;
     }
 }

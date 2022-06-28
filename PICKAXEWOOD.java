@@ -8,7 +8,13 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class PICKAXEWOOD extends PICKAXE
 {
+    private static final BLOCK[] ingredients = new BLOCK[]{new WOOD(), new WOOD(), new WOOD(), new WOOD()};
     public double get_speed_multiplier(){
         return 1;
+    }
+    
+    public static BLOCK[] get_ingredients(){
+        
+        return ingredients;
     }
 }
