@@ -8,6 +8,10 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class PICKAXESTONE extends PICKAXE
 {
+    GreenfootImage icon;
+    PICKAXESTONE(){
+        icon = new GreenfootImage("tools/pickaxe_stone.png");
+    }
     public double get_speed_multiplier(){
         return 1.5;
     }

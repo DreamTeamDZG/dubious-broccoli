@@ -66,7 +66,7 @@ public class POSITION implements Cloneable
         return new POSITION(minuend.get_x() - subtrahend.get_y(), minuend.get_y() - subtrahend.get_y());
     }
     
-        public static double get_distance(POSITION p_1,POSITION p_2){
+    public static double get_distance(POSITION p_1,POSITION p_2){
         double distance =0;
         int diff_x = p_2.get_x()-p_1.get_x();
         int diff_y = p_2.get_y()-p_1.get_y();

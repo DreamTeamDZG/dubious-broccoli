@@ -46,7 +46,6 @@ public class INVENTORY
     public boolean add_item(BLOCK item){
         for(INVENTORYSLOT slot : slots){
             if(slot.add(item)){
-                
                 return true;
             }
         }

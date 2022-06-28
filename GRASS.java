@@ -13,7 +13,7 @@ public class GRASS extends BLOCK
      * Constructor for objects of class GRASS
      */
     public GRASS(){
-        icon = new GreenfootImage("blocks/stone/stone_small_1.png");
+        icon = new GreenfootImage("blocks/grass/grass_small_1.png");
     }
     
     public void use(TOOL tool){

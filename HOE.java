@@ -15,7 +15,7 @@ public abstract class HOE extends TOOL
      */
     public HOE()
     {
-        icon = new GreenfootImage("tools/pickaxe_1_small");
+        icon = new GreenfootImage("tools/hoe_wood.png");
     }
 
     public TOOLKIND get_kind(){

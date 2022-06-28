@@ -10,6 +10,7 @@ public abstract class ENTITY extends Actor
 {
     private POSITION position;
     private boolean visible;
+    GreenfootImage icon;
     
     public ENTITY(){
         this.position = new POSITION(0,0);

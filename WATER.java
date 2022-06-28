@@ -13,7 +13,7 @@ public class WATER extends BLOCK
      * Constructor for objects of class WATER
      */
     public WATER(){
-        icon = new GreenfootImage("blocks/stone/stone_small_1.png");
+        icon = new GreenfootImage("blocks/water/water.png");
     }
     
     public void act(){
@@ -46,7 +46,7 @@ public class WATER extends BLOCK
     }
     
     public String get_name(){
-        return "Stone";
+        return "Water";
     }
     
     public int will_drop_item(TOOL tool){

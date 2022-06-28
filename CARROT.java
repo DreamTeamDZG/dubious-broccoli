@@ -1,21 +1,19 @@
-import greenfoot.*;
+import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+
 /**
  * Write a description of class BROCCOLI here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class BROCCOLI extends PLANT
+public class CARROT extends PLANT
 {
     private GreenfootImage icon;
     private GreenfootImage image;
-    private int dubious_lvl;
-    public BROCCOLI(){
-        super("blocks/plants/broccoli/",5);
-        image = new GreenfootImage("blocks/plants/broccoli/broccoli_dubious_lvl_1_inventory_icon.png");
-        
-        dubious_lvl = Greenfoot.getRandomNumber(5) + 1;
-        icon = new GreenfootImage("blocks/plants/broccoli/broccoli_dubious_lvl_" + dubious_lvl + "_inventory_icon.png");
+    public CARROT(){
+        super("blocks/plants/carrot/",5);
+        icon = new GreenfootImage("inventory/icons/carrot/carrot_icon.png");
+        image = icon;
     }
     
     
@@ -33,7 +31,7 @@ public class BROCCOLI extends PLANT
     }
     
     public String get_name(){
-        return "broccoli";
+        return "carrot";
     }
     
     public int will_drop_item(TOOL tool){

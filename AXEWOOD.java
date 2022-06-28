@@ -8,8 +8,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class AXEWOOD extends AXE
 {
+    GreenfootImage icon;
     public AXEWOOD(){
-        //icon = new GreenfootImage();
+        icon = new GreenfootImage("tools/axe_wood.png");
     }
     
     public double get_speed_multiplier(){
