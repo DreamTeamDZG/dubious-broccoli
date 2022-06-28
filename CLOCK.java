@@ -10,6 +10,7 @@ import java.time.Duration;
 public class CLOCK
 {
     private POSITION position;
+    private MAINWORLD main_world;
     
     private int day;
     private int hour;
@@ -61,6 +62,9 @@ public class CLOCK
     public void init(MAINWORLD main_world){
         // 12:15
         // Tag: 2
+        
+        this.main_world = main_world;
+        
         display_hour = new NUMBER(position, y_size, 2, 0);
         display_hour.init(main_world);
         System.out.println("created display hour");
@@ -116,12 +120,22 @@ public class CLOCK
         while(hour >= 24){
             hour = hour - 24;
             day++;
+            set_random_weather();
         }
         last = now;
         
         display_minute.set_number(minute);
         display_hour.set_number(hour);
         display_day.set_number(day);
+    }
+    
+    public void set_random_weather(){
+        int number = Greenfoot.getRandomNumber(2);
+        if(number == 0){
+            main_world.set_weather(WEATHER.SUNNY);
+        } else {
+            main_world.set_weather(WEATHER.RAINY);
+        }
     }
     
     public int get_width(){

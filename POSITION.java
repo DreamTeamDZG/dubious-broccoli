@@ -73,9 +73,14 @@ public class POSITION implements Cloneable
         distance = Math.sqrt(Math.pow(diff_x,2)+Math.pow(diff_y,2));
         return distance;
     }
-    
+
     protected Object clone() throws CloneNotSupportedException{
         return super.clone();
+    }
+    
+    public double get_distance_to(POSITION other){
+        return 1;
+        // Juli
     }
     
 }

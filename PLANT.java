@@ -10,7 +10,8 @@ import java.util.List;
 public abstract class PLANT extends BLOCK
 {
     private int growth_stage = 0;
-    private GreenfootImage[] growth_stage_image;
+    protected GreenfootImage[] growth_stage_image;
+
     private IMAGESHOWER image;
     
     private static int y_offset = 8;
@@ -24,6 +25,9 @@ public abstract class PLANT extends BLOCK
     }
     
     public boolean grow(){
+        if(((MAINWORLD) getWorld()).get_weather() == WEATHER.RAINY){
+            return false;
+        }
         growth_stage++;
         if(growth_stage<growth_stage_image.length){
             setImage(growth_stage_image[growth_stage]);

@@ -1,4 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.time.Instant;
+import java.time.Duration;
 
 /**
  * Write a description of class FIELD here.
@@ -12,12 +14,18 @@ public class FIELD extends BLOCK
     private GreenfootImage img;
     private PLANT plant;
     private int watered_amount;
-    private static int watered_full = 1000000;
+    private static final int watered_full = 1000000;
+    private static final int grow_clocking_ms = 10000;
+    
+    
+    private Instant last;
+    
     
     public FIELD(){
         super();
         img = new GreenfootImage("blocks/field/field_watered.png");
         setImage(img);
+        last = Instant.now();
     }
     
     public void water(){
@@ -54,13 +62,22 @@ public class FIELD extends BLOCK
     
     public void grow(){
         if(watered_amount > 0 && plant != null){
-            plant.grow();
-            watered_amount--;
-            if(watered_amount<900000){
-                img = new GreenfootImage("blocks/field/field_not_watered.png");
-                setImage(img);
+            if (plant.grow()){
+                last = Instant.now();
+                watered_amount--;
+                if(watered_amount<900000){
+                  img = new GreenfootImage("blocks/field/field_not_watered.png");
+                  setImage(img);
                 }
-            System.out.println("growing plant; watered_amount " + watered_amount);
+                System.out.println("growing plant; watered_amount " + watered_amount);
+            }
+        }
+    }
+    
+    public void act(){
+        Instant now = Instant.now();
+        if((int) Duration.between(last, now).toMillis() > grow_clocking_ms){
+            grow();
         }
     }
 }
