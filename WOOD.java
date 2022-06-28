@@ -1,24 +1,17 @@
 import greenfoot.*;
 /**
- * Write a description of class BROCCOLI here.
+ * Write a description of class TREE here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class BROCCOLI extends PLANT
+public class WOOD extends PLANT
 {
     private GreenfootImage icon;
     private GreenfootImage image;
-    // array dubious images
-    // growth_stage 5 -> dubious image
-    
-    private int dubiousness;
-    public BROCCOLI(){
+    public WOOD(){
         super("",0);
-        
     }
-    
-    
     
     public GreenfootImage get_icon(){
         return icon;
@@ -33,12 +26,12 @@ public class BROCCOLI extends PLANT
     }
     
     public String get_name(){
-        return "Broccoli";
+        return "Wood";
     }
     
     public int will_drop_item(TOOL tool){
-        if(tool.get_kind() == TOOLKIND.HOE){
-            return 1;
+        if(tool.get_kind() == TOOLKIND.AXE){
+            return 100;
         }
         return -1;
     }

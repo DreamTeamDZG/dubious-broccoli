@@ -11,6 +11,8 @@ public class CHARACTER extends Actor
     POSITION position;
     private String name;
 
+
+    public static final double pickup_range = 8;
     private boolean wheel_pressed; // two events on press
     DIRECTION current_direction;
 
@@ -127,6 +129,7 @@ public class CHARACTER extends Actor
         if(current_direction != DIRECTION.ZERO){
             ((MAINWORLD) getWorld()).move_world(current_direction);
         }
+
     }
 
     private void mouse_interactions(){
@@ -151,7 +154,12 @@ public class CHARACTER extends Actor
         }
     }
 
-    
+
+    public void pick_up_items(){
+        ((MAINWORLD) getWorld()).pick_up_items();
+    }
+
+
     public void select_next_slot(){
         if(wheel_pressed){
             wheel_pressed = false;
@@ -328,6 +336,6 @@ public class CHARACTER extends Actor
         control();
         mouse_interactions();
         loadImage();
-
+        pick_up_items();
     }
 }

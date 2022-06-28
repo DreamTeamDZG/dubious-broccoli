@@ -59,6 +59,15 @@ public abstract class ENTITY extends Actor
         setLocation(position.get_x(), position.get_y());
     }
     
+    public void set_visible(boolean visible){
+        this.visible = visible;
+    }
+    
+    public boolean get_visible(){
+        return visible;
+
+    }
+    
     public int get_x(){
         return position.get_x();
     }

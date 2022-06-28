@@ -64,6 +64,9 @@ public class INVENTORY
     }
     
     public void update_view(){
+        for(INVENTORYSLOT slot: slots){
+            slot.setImage(background_image);
+        }
         slots[selected_slot].setImage(background_image_selected);
     }
         
@@ -92,6 +95,7 @@ public class INVENTORY
         }
     }
     
+
     public int get_selected_slot(){
         return selected_slot;
     }
