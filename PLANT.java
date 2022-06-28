@@ -18,8 +18,9 @@ public abstract class PLANT extends BLOCK
     //move plants 8 px up -> starts growing in the middle of a field
     PLANT(String path, int growth_stage_count ){
         image = new IMAGESHOWER();
+        growth_stage_image = new GreenfootImage[growth_stage_count];
         for(int i = 0; i< growth_stage_count; i++){
-            growth_stage_image[i] = new GreenfootImage(path + get_name() + "_plant_phase_" + i);
+            growth_stage_image[i] = new GreenfootImage(path + get_name() + "_plant_phase_" + i + ".png");
         }
     }
     
@@ -56,7 +57,7 @@ public abstract class PLANT extends BLOCK
     public FIELD get_field_or_null(){
         List<FIELD> fields = getWorld().getObjectsAt(getX(), getY(), FIELD.class);
         if(fields.size() != 1){
-            System.out.println("Error to many fields at"+ getX() + "|" + getY());
+            System.out.println("Error to many fields at "+ getX() + "|" + getY());
             return null;
         }
         if(fields.size() == 1){

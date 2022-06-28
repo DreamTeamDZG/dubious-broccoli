@@ -9,8 +9,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public abstract class BLOCK extends ENTITY
 {
     private GreenfootImage icon;
-    protected
-    BLOCKMODE mode;
+    protected BLOCKMODE mode;
     
     private int time_broken = 0; // if 1000 then break; on act -- -> 0
 
@@ -44,7 +43,7 @@ public abstract class BLOCK extends ENTITY
     public void drop_item(){
         ((MAINWORLD) getWorld()).add_entity(this);
         mode = BLOCKMODE.ITEM;
-        //setImage(get_icon());
+        setImage(get_icon());
     }
     
     public void set_mode(BLOCKMODE mode){
@@ -63,7 +62,7 @@ public abstract class BLOCK extends ENTITY
         if(is_placeable()){
             ((MAINWORLD) getWorld()).add_entity(this);
             mode = BLOCKMODE.ITEM;
-            //setImage(get_image());
+            setImage(get_image());
         } else {
             System.out.println("cannot place block " + get_name());
         }

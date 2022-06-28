@@ -271,6 +271,7 @@ public class MAINWORLD extends World
     }
 
     public void add_item_cheat(){
+        int dubious_lvl = 1;
         if(Greenfoot.isKeyDown("O")){
             if (inventory.add_item(new STONE())){
                 System.out.println("adding Stone worked");
@@ -289,6 +290,7 @@ public class MAINWORLD extends World
         if(Greenfoot.isKeyDown("i")){
             if (inventory.add_item(new BROCCOLI())){
                 System.out.println("adding Broccoli worked");
+                dubious_lvl++;
             } else {
                 System.out.println("adding Broccoli failed");
             }
@@ -296,8 +298,24 @@ public class MAINWORLD extends World
         if(Greenfoot.isKeyDown("k")){
             if (inventory.retrieve_item(new BROCCOLI()) != null){
                 System.out.println("removing Broccoli worked");
+                dubious_lvl--;
             } else {
                 System.out.println("removing Broccoli failed");
+            }
+        }
+        
+        if(Greenfoot.isKeyDown("ä")){
+            if (inventory.add_item(new CARROT())){
+                System.out.println("adding Carrot worked");
+            } else {
+                System.out.println("adding Carrot failed");
+            }
+        }
+        if(Greenfoot.isKeyDown("ü")){
+            if (inventory.retrieve_item(new CARROT()) != null){
+                System.out.println("removing Carrot worked");
+            } else {
+                System.out.println("removing Carrot failed");
             }
         }
     }

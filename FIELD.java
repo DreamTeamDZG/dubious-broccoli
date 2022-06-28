@@ -23,8 +23,9 @@ public class FIELD extends BLOCK
     
     public FIELD(){
         super();
+        img = new GreenfootImage("blocks/field/field_watered.png");
+        setImage(img);
         last = Instant.now();
-        //img = new GreenfootImage("");
     }
     
     public void water(){
@@ -64,6 +65,10 @@ public class FIELD extends BLOCK
             if (plant.grow()){
                 last = Instant.now();
                 watered_amount--;
+                if(watered_amount<900000){
+                  img = new GreenfootImage("blocks/field/field_not_watered.png");
+                  setImage(img);
+                }
                 System.out.println("growing plant; watered_amount " + watered_amount);
             }
         }
