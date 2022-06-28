@@ -78,4 +78,9 @@ public class POSITION implements Cloneable
         return super.clone();
     }
     
+    public double get_distance_to(POSITION other){
+        return 1;
+        // Juli
+    }
+    
 }
