@@ -59,7 +59,16 @@ public class MAINWORLD extends World
             {
                 POSITION pos_screen = (POSITION) e.get_position().clone();
                 pos_screen.subtract(top_left);
-                e.set_location(pos_screen);
+                if(is_position_on_screen(pos_screen)){
+                    if(!e.get_visible()){
+                        addObject(e, pos_screen.get_x(), pos_screen.get_y());
+                    }
+                    e.set_location(pos_screen);
+                } else {
+                    System.out.println("Entity is not on the screen, removing it from World");
+                    e.set_visible(false);
+                    removeObject(e);
+                }
             }
             catch (CloneNotSupportedException cnse)
             {
@@ -107,6 +116,10 @@ public class MAINWORLD extends World
         return item;
     }
     
+    public BLOCK retrieve_item(BLOCK item){
+        return inventory.retrieve_item(item);
+    }
+    
     public boolean add_item(BLOCK item){
         if(entities.contains(item)){
             entities.remove(item);
@@ -149,6 +162,16 @@ public class MAINWORLD extends World
                 }
             }
         }
+    }
+    
+    public boolean is_position_on_screen(POSITION position){
+        if(position.get_x() > screen_size_x || position.get_x() < 0 ){
+            return false;
+        }
+        if(position.get_y() > screen_size_y || position.get_y() < 0){
+            return false;
+        }
+        return true;
     }
     
     public static DIRECTION inverse_direction(DIRECTION direction)
@@ -266,6 +289,14 @@ public class MAINWORLD extends World
             }
         }
     }
+    
+    public void set_weather(WEATHER weather){
+        weathershower.set_weather(weather);
+    }
+    
+    public WEATHER get_weather(){
+        return weathershower.get_weather();
+    }
 
     public void started(){
         character = getObjects(CHARACTER.class).get(0);
@@ -289,7 +320,7 @@ public class MAINWORLD extends World
     }
 
     private void add_clock(){
-        clock = new CLOCK(new POSITION(getWidth()-CLOCK.get_width_static()-10, 10), y_size,15, 15, 15);
+        clock = new CLOCK(new POSITION(getWidth()-CLOCK.get_width_static()-10, 10), y_size, 0, 0, 0);
         clock.init(this);
     }
 
