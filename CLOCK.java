@@ -120,6 +120,7 @@ public class CLOCK
         while(hour >= 24){
             hour = hour - 24;
             day++;
+            set_random_weather();
         }
         last = now;
         
