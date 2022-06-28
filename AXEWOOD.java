@@ -8,6 +8,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class AXEWOOD extends AXE
 {
+
+    private static final WOOD[] ingredients = new WOOD[]{new WOOD(), new WOOD(), new WOOD()};
+
     public AXEWOOD(){
         //icon = new GreenfootImage();
     }
@@ -15,4 +18,11 @@ public class AXEWOOD extends AXE
     public double get_speed_multiplier(){
         return 1;
     }
+
+    
+    public static BLOCK[] get_ingredients(){
+        
+        return ingredients;
+    }
+
 }
