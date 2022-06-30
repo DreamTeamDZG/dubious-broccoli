@@ -17,6 +17,7 @@ public class WATER extends BLOCK
     }
     
     public void act(){
+        
         MAINWORLD world = (MAINWORLD) getWorld();
         POSITION[] blocks_positions = new POSITION[4];
         
@@ -27,6 +28,7 @@ public class WATER extends BLOCK
         
         for(int i = 0; i < 4; i++){
             BLOCK block = world.get_block_at(blocks_positions[i]);
+            if(block == null){return ;}
             if(block instanceof FIELD){
                 ((FIELD) block).water();
             }

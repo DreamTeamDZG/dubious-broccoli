@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class CRAFTINGMENU extends Actor
+public class CRAFTINGMENU extends IMAGESHOWER
 {
     enum TAB{
         WOOD,
@@ -20,8 +20,13 @@ public class CRAFTINGMENU extends Actor
     
     private MAINWORLD main_world;
     
-    public CRAFTINGMENU(MAINWORLD main_world){
+    public CRAFTINGMENU(MAINWORLD main_world, int y_size){
+        super(y_size);
         this.main_world = main_world;
+        wood_tab = new GreenfootImage("hud/crafting_wood.png");
+        stone_tab = new GreenfootImage("hud/crafting_stone.png");
+        set_image(wood_tab);
+        
     }
     
     /**
@@ -32,13 +37,23 @@ public class CRAFTINGMENU extends Actor
     {
         
         if(Greenfoot.isKeyDown("T")){
+            System.out.println("T");
             switch_tab();
-        } else if(Greenfoot.isKeyDown("X")){
-            
+            Greenfoot.delay(20);
+        } else if(Greenfoot.isKeyDown("2")){
+            System.out.println("2");
+            craft_axe();
+            Greenfoot.delay(20);
             //axe
-        } else if(Greenfoot.isKeyDown("Y")){
+        } else if(Greenfoot.isKeyDown("1")){
+            System.out.println("1");
+            craft_hoe();
+            Greenfoot.delay(20);
             //hoe
-        } else if(Greenfoot.isKeyDown("C")){
+        } else if(Greenfoot.isKeyDown("3")){
+            System.out.println("3");
+            craft_pickaxe();
+            Greenfoot.delay(20);
             //pickaxe
         }
 
@@ -47,12 +62,15 @@ public class CRAFTINGMENU extends Actor
     
     public void switch_tab(){
         if(selected_tab == TAB.WOOD){
+            System.out.println("switching to wood");
             selected_tab = TAB.STONE;
-            setImage(stone_tab);
+            set_image(stone_tab);
         } else {
+            System.out.println("switching to stone");
             selected_tab = TAB.WOOD;
-            setImage(wood_tab);
+            set_image(wood_tab);
         }
+        update_view();
     }
     
     private void craft_axe(){
@@ -107,7 +125,9 @@ public class CRAFTINGMENU extends Actor
         for(BLOCK b: ingredients){
                 BLOCK item = main_world.retrieve_item(b);
                 if(item == null ){
-                    main_world.add_item(item);
+                    for(BLOCK b_r: taken_from_inv){
+                        main_world.add_item(b_r);
+                    }
                     return false;
                 } else {
                     taken_from_inv.add(b);

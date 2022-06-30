@@ -5,12 +5,13 @@ import greenfoot.*;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class WOOD extends PLANT
+public class WOOD extends BLOCK
 {
     private GreenfootImage icon;
     private GreenfootImage image;
     public WOOD(){
-        super("",0);
+        image = new GreenfootImage("inventory/icons/wood/wood_inventory_icon.png");
+        icon = image;
     }
     
     public GreenfootImage get_icon(){
@@ -30,6 +31,9 @@ public class WOOD extends PLANT
     }
     
     public int will_drop_item(TOOL tool){
+        if(tool == null){
+            return 1000;
+        }
         if(tool.get_kind() == TOOLKIND.AXE){
             return 100;
         }

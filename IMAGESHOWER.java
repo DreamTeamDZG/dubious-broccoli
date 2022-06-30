@@ -53,6 +53,10 @@ public class IMAGESHOWER extends Actor
         image.scale(scale.get_x(), scale.get_y());
         this.image = image;
     }
+
+    public void update_view(){
+        setImage(image);
+    }
     
     public void set_y_scale(int y_scale){
         scale = new POSITION(-1, y_scale);
@@ -67,6 +71,9 @@ public class IMAGESHOWER extends Actor
     }
     
     public void set_position(POSITION position){
+        if(image==null){
+            System.out.println("no image to be found");
+        }
         setLocation(position.get_x() + image.getHeight()/2, position.get_y() + image.getWidth()/2);
     }
     

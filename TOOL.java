@@ -12,9 +12,7 @@ public abstract class TOOL extends BLOCK
     /**
      * Constructor for objects of class TOOL
      */
-    public TOOL()
-    {
-        
+    public TOOL(){
     }
     public abstract TOOLKIND get_kind();
     

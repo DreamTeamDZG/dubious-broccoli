@@ -22,7 +22,6 @@ public class FIELD extends BLOCK
     
     
     public FIELD(){
-        super();
         img = new GreenfootImage("blocks/field/field_watered.png");
         setImage(img);
         last = Instant.now();

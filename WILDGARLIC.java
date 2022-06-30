@@ -1,23 +1,22 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import greenfoot.*;
 /**
- * Write a description of class BROCCOLI here.
+ * Write a description of class WILDGARLIC here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class CARROT extends PLANT
+public class WILDGARLIC extends BLOCK 
 {
+    // instance variables - replace the example below with your own
     private GreenfootImage icon;
     private GreenfootImage image;
-    public CARROT(){
-        super("blocks/plants/carrot/",5);
-        icon = new GreenfootImage("inventory/icons/carrot/carrot_icon.png");
+    /**
+     * Constructor for objects of class WILDGARLIC
+     */
+    public WILDGARLIC(){
+        icon = new GreenfootImage("blocks/wildgarlic/wildgarlic_plant.png");
         image = icon;
-        setImage(image);
     }
-    
-    
     
     public GreenfootImage get_icon(){
         return icon;
@@ -32,17 +31,14 @@ public class CARROT extends PLANT
     }
     
     public String get_name(){
-        return "carrot";
+        return "wildgarlic";
     }
     
     public int will_drop_item(TOOL tool){
-        if(tool.get_kind() == TOOLKIND.HOE && is_fully_grown()){
-            return 1;
-        }
-        return -1;
+        return 1;
     }
     
     public boolean is_placeable(){
-        return true;
+        return false;
     }
 }

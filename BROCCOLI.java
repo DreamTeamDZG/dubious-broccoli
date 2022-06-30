@@ -15,7 +15,13 @@ public class BROCCOLI extends PLANT
         image = new GreenfootImage("blocks/plants/broccoli/broccoli_dubious_lvl_1_inventory_icon.png");
         
         dubious_lvl = Greenfoot.getRandomNumber(5) + 1;
-        icon = new GreenfootImage("blocks/plants/broccoli/broccoli_dubious_lvl_" + dubious_lvl + "_inventory_icon.png");
+        icon = image;
+        setImage(image);
+        //icon = new GreenfootImage("blocks/plants/broccoli/broccoli_dubious_lvl_" + dubious_lvl + "_inventory_icon.png");
+    }
+    
+    public int get_dubious_lvl(){
+        return dubious_lvl;
     }
     
     
@@ -37,7 +43,7 @@ public class BROCCOLI extends PLANT
     }
     
     public int will_drop_item(TOOL tool){
-        if(tool.get_kind() == TOOLKIND.HOE){
+        if(tool.get_kind() == TOOLKIND.HOE && is_fully_grown()){
             return 1;
         }
         return -1;

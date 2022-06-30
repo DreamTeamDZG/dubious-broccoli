@@ -1,20 +1,21 @@
 import greenfoot.*;
 /**
- * Write a description of class STONE here.
+ * Write a description of class BUSHONE here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class STONE extends BLOCK 
+public class BUSHONE extends BLOCK 
 {
     // instance variables - replace the example below with your own
     private GreenfootImage icon;
+    private GreenfootImage image;
     /**
-     * Constructor for objects of class STONE
+     * Constructor for objects of class BUSHONE
      */
-    public STONE(){
-        icon = new GreenfootImage("blocks/stone/stone_small_1.png");
-        
+    public BUSHONE(){
+        icon = new GreenfootImage("blocks/bush/bush_small_1.png");
+        image = new GreenfootImage("blocks/bush/bush_small_1.png");
     }
     
     public GreenfootImage get_icon(){
@@ -22,7 +23,7 @@ public class STONE extends BLOCK
     }
     
     public GreenfootImage get_image(){
-        return icon;
+        return image;
     }
     
     public boolean is_stackable(){
@@ -30,7 +31,7 @@ public class STONE extends BLOCK
     }
     
     public String get_name(){
-        return "Stone";
+        return "bushone";
     }
     
     public int will_drop_item(TOOL tool){
@@ -38,6 +39,6 @@ public class STONE extends BLOCK
     }
     
     public boolean is_placeable(){
-        return true;
+        return false;
     }
 }

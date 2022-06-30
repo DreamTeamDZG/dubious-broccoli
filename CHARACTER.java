@@ -16,8 +16,8 @@ public class CHARACTER extends Actor
     private boolean wheel_pressed; // two events on press
     DIRECTION current_direction;
 
-    DIRECTION last_direction_NS = DIRECTION.ZERO; // last walked to north or south
-    DIRECTION last_direction_EW = DIRECTION.ZERO; // last walked to east or west
+    DIRECTION last_direction_NS = DIRECTION.NORTH; // last walked to north or south
+    DIRECTION last_direction_EW = DIRECTION.EAST; // last walked to east or west
 
     GreenfootImage[] g_i;
     String[] paths_to_image = {"char/back/cs_back.png","char/right/cs_right.png","char/front/cs_front.png","char/left/cs_left.png"};
@@ -153,6 +153,13 @@ public class CHARACTER extends Actor
             }
         }
     }
+    
+    public void crafting_control(){
+        if(Greenfoot.isKeyDown("C")){
+            System.out.println("C");
+            ((MAINWORLD) getWorld()).add_crafting_menu();
+        }
+    }
 
 
     public void pick_up_items(){
@@ -203,18 +210,20 @@ public class CHARACTER extends Actor
     public void place_block(){
         MAINWORLD world = ((MAINWORLD) getWorld());
         BLOCK current_block = world.get_selected_item();
+        System.out.println("character block placing");
         if(current_block == null){
             System.out.println("no block selected");
             return;
         }
-        if(current_block.is_placeable()){
+        POSITION pos = get_next_block_position(world.get_position_middle(), last_direction_EW, last_direction_NS);
+        if(current_block.place(pos, world)){
+            System.out.println("character block placing");
             world.retrieve_selected_item();
-
-            current_block.place(get_next_block_position(position, last_direction_EW, last_direction_NS));
+            
         }
         if(current_block instanceof TOOL){
             TOOL current_tool = (TOOL) current_block;
-            POSITION block_position = get_next_block_position(position, last_direction_EW, last_direction_NS);
+            POSITION block_position = get_next_block_position(world.get_position_middle(), last_direction_EW, last_direction_NS);
             BLOCK block = world.get_block_at(block_position);
             block.use(current_tool);
         }
@@ -229,16 +238,16 @@ public class CHARACTER extends Actor
         {
             POSITION place_position = (POSITION) position.clone();
 
-            while((place_position.get_x() % MAINWORLD.block_size) == 0 && ew != DIRECTION.ZERO){
+            while((place_position.get_x() % MAINWORLD.block_size) != 0 && ew != DIRECTION.ZERO){
                 place_position.add(MAINWORLD.direction_to_position(ew));
             }
-            while((place_position.get_y() % MAINWORLD.block_size) == 0 && ns != DIRECTION.ZERO){
+            while((place_position.get_y() % MAINWORLD.block_size) != 0 && ns != DIRECTION.ZERO){
                 place_position.add(MAINWORLD.direction_to_position(ns));
             }
             if((place_position.get_x() % MAINWORLD.block_size) == 0 && (place_position.get_y() % MAINWORLD.block_size) == 0){
                 return place_position;
             }
-            System.out.println("cant find correct block");
+            System.out.println("cant find correct block " + place_position.get_x() +"  "+ place_position.get_y());
             return null;
         }
         catch (CloneNotSupportedException cnse)
@@ -335,6 +344,7 @@ public class CHARACTER extends Actor
     {
         control();
         mouse_interactions();
+        crafting_control();
         loadImage();
         pick_up_items();
     }
