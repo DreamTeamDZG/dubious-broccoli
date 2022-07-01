@@ -58,6 +58,10 @@ public class POSITION implements Cloneable
         y = y - p.get_y();
     }
     
+    public double get_length(){
+        return get_distance(new POSITION(0,0), this);
+    }
+    
     public POSITION direction_to(POSITION p){
         POSITION delta = subtract(p, this);
         int x = delta.get_x();
@@ -82,7 +86,7 @@ public class POSITION implements Cloneable
     }
     
     public static POSITION subtract(POSITION minuend, POSITION subtrahend){
-        return new POSITION(minuend.get_x() - subtrahend.get_y(), minuend.get_y() - subtrahend.get_y());
+        return new POSITION(minuend.get_x() - subtrahend.get_x(), minuend.get_y() - subtrahend.get_y());
     }
     
     public static double get_distance(POSITION p_1,POSITION p_2){

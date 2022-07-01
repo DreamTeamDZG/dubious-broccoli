@@ -16,7 +16,7 @@ public abstract class BLOCK extends ENTITY
 
     
     public abstract String get_name();
-    public abstract boolean is_stackable();
+    public abstract boolean is_stackable(BLOCK block);
     public abstract GreenfootImage get_icon();
     public abstract GreenfootImage get_image();
     public abstract int will_drop_item(TOOL tool); // returns time in ticks it takes to destroy
@@ -29,24 +29,25 @@ public abstract class BLOCK extends ENTITY
         double time = ((double)will_drop_item(tool)) / tool.get_speed_multiplier();
         if(time == 0){
             System.out.println("instant break");
-            drop_item();
+            //drop_item();
         } else if (time > 0){
             System.out.println("breaking progress " + time_broken);
             time_broken++;
             if(time_broken >= time){
-                drop_item();
+                //drop_item();
                 time_broken = 0;
             }
         } else {
             System.out.println("this block cant be broken");
         }
     }
-    
+    /*
     public void drop_item(){
-        ((MAINWORLD) getWorld()).add_entity(this);
-        mode = BLOCKMODE.ITEM;
-        setImage(get_icon());
-    }
+        if(((MAINWORLD) getWorld()) == null){
+            System.out.println("aaa");
+        }
+        ((MAINWORLD) getWorld()).drop_item(this);
+    }*/
     
     public void set_mode(BLOCKMODE mode){
         this.mode = mode;

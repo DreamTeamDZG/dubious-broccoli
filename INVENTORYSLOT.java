@@ -41,7 +41,7 @@ public class INVENTORYSLOT extends Actor
         }
         if( this.item.get_name() == item.get_name() 
         && count < max 
-        && this.item.is_stackable() && item.is_stackable()){
+        && this.item.is_stackable(item)){
             add_item(item);
             ensure_item_in_world(item.get_icon());
             return true;

@@ -16,25 +16,6 @@ public class WATER extends BLOCK
         icon = new GreenfootImage("blocks/water/water.png");
     }
     
-    public void act(){
-        /*
-        MAINWORLD world = (MAINWORLD) getWorld();
-        POSITION[] blocks_positions = new POSITION[4];
-        
-        blocks_positions[0] = CHARACTER.get_next_block_position(get_position(), DIRECTION.ZERO, DIRECTION.NORTH);
-        blocks_positions[1] = CHARACTER.get_next_block_position(get_position(), DIRECTION.ZERO, DIRECTION.SOUTH);
-        blocks_positions[2] = CHARACTER.get_next_block_position(get_position(), DIRECTION.EAST, DIRECTION.ZERO);
-        blocks_positions[3] = CHARACTER.get_next_block_position(get_position(), DIRECTION.WEST, DIRECTION.NORTH);
-        
-        for(int i = 0; i < 4; i++){
-            BLOCK block = world.get_block_at(blocks_positions[i]);
-            if(block == null){return ;}
-            if(block instanceof FIELD){
-                ((FIELD) block).water();
-            }
-        }*/
-    }
-    
     public GreenfootImage get_icon(){
         return icon;
     }
@@ -43,7 +24,7 @@ public class WATER extends BLOCK
         return icon;
     }
     
-    public boolean is_stackable(){
+    public boolean is_stackable(BLOCK block){
         return true;
     }
     
@@ -52,7 +33,7 @@ public class WATER extends BLOCK
     }
     
     public int will_drop_item(TOOL tool){
-        return 1;
+        return -1;
     }
     
     public boolean is_placeable(){

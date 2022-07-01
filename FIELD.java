@@ -39,7 +39,7 @@ public class FIELD extends BLOCK
         return "FIELD";
     }
     
-    public boolean is_stackable(){
+    public boolean is_stackable(BLOCK block){
         return false;
     }
     

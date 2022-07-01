@@ -79,12 +79,12 @@ public class CRAFTINGMENU extends IMAGESHOWER
         if(selected_tab == TAB.WOOD){
             ingredients = AXESTONE.get_ingredients();
             if(craft(ingredients)){
-                main_world.add_item(new AXESTONE());
+                main_world.move_item_to_inv(new AXESTONE());
             }
         } else {
             ingredients = AXEWOOD.get_ingredients();
             if(craft(ingredients)){
-                main_world.add_item(new AXEWOOD());
+                main_world.move_item_to_inv(new AXEWOOD());
             }
         }
         
@@ -95,12 +95,12 @@ public class CRAFTINGMENU extends IMAGESHOWER
         if(selected_tab == TAB.WOOD){
             ingredients = PICKAXESTONE.get_ingredients();
             if(craft(ingredients)){
-                main_world.add_item(new PICKAXEWOOD());
+                main_world.move_item_to_inv(new PICKAXEWOOD());
             }
         } else {
             ingredients = PICKAXEWOOD.get_ingredients();
             if(craft(ingredients)){
-                main_world.add_item(new PICKAXEWOOD());
+                main_world.move_item_to_inv(new PICKAXEWOOD());
             }
         }
     }
@@ -110,12 +110,12 @@ public class CRAFTINGMENU extends IMAGESHOWER
         if(selected_tab == TAB.WOOD){
             ingredients = HOESTONE.get_ingredients();
             if(craft(ingredients)){
-                main_world.add_item(new HOEWOOD());
+                main_world.move_item_to_inv(new HOEWOOD());
             }
         } else {
             ingredients = HOEWOOD.get_ingredients();
             if(craft(ingredients)){
-                main_world.add_item(new HOEWOOD());
+                main_world.move_item_to_inv(new HOEWOOD());
             }
         }
     }
@@ -126,7 +126,7 @@ public class CRAFTINGMENU extends IMAGESHOWER
                 BLOCK item = main_world.retrieve_item(b);
                 if(item == null ){
                     for(BLOCK b_r: taken_from_inv){
-                        main_world.add_item(b_r);
+                        main_world.move_item_to_inv(b_r);
                     }
                     return false;
                 } else {

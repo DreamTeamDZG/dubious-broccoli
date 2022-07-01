@@ -21,6 +21,7 @@ public class MAINWORLD extends World
     public static final int block_size = 32;
 
     private List<ENTITY> entities;
+    private List<BLOCK> items; // dropped items;
     private CHARACTER character;
 
     private CRAFTINGMENU crafting_menu;
@@ -31,16 +32,17 @@ public class MAINWORLD extends World
     private static final int y_size = 18;
 
     private static final POSITION character_offset_position = new POSITION(-70, 100);
-    
+
     private POSITION most_dubious_broccoli_position;
     private static final int broccoli_range = block_size / 2;
-    
+
     private static final int screen_size_x = (1920 / 10) * 8;
     private static final int screen_size_y = (1080 / 10) * 8;
     private static final POSITION middle =  new POSITION(screen_size_x/2, screen_size_y/2);
     //1
     //
     private boolean huds_added = false;
+    private int drop_broccoli = 3;
     /**
      * Constructor for objects of class MAINWORLD.
      * 
@@ -50,6 +52,7 @@ public class MAINWORLD extends World
         super(screen_size_x, screen_size_y, 1);
         top_left = new POSITION(0,0);
         entities = new ArrayList<ENTITY>();
+        items = new ArrayList<BLOCK>();
         addObject(new CHARACTER(POSITION.add(middle, character_offset_position)), middle.get_x(), middle.get_y());
         setPaintOrder(DIGIT.class, IMAGESHOWER.class, CRAFTINGMENU.class, CHARACTER.class,INVENTORYSLOT.class, ENTITY.class, BACKGROUND.class);
         crafting_menu = null;
@@ -85,7 +88,7 @@ public class MAINWORLD extends World
             }
         }
     }
-    
+
     public List<BROCCOLI> get_all_broccolies(){
         List<BROCCOLI> broccolies = new ArrayList();
         for(ENTITY e: entities){
@@ -97,7 +100,7 @@ public class MAINWORLD extends World
     }
 
     public void add_entity(ENTITY entity){
-        System.out.println("adding entity");
+        //System.out.println("adding entity");
         if(!entities.contains(entity)){
             entities.add(entity);
 
@@ -114,16 +117,24 @@ public class MAINWORLD extends World
         //System.out.println("top left "+top_left.get_x() + "|" + top_left.get_y());
 
         update_view();
-        check_for_broccoli();
+        //check_for_broccoli();
+        pick_up_items();
     }
-    
+
     public void set_most_dubious_broccoli_position(POSITION position){
         most_dubious_broccoli_position = position;
     }
-    
+
     public void check_for_broccoli(){
-        if(POSITION.get_distance(POSITION.add(top_left, middle), most_dubious_broccoli_position) <= broccoli_range){
-            System.out.println("you won");
+        List<BROCCOLI> broccolies = get_all_broccolies();
+        POSITION middle_pos = POSITION.add(top_left, middle);
+        for(BROCCOLI broccoli : broccolies){
+            if(POSITION.get_distance(middle_pos, broccoli.get_position()) <= broccoli_range){
+                move_item_to_inv(broccoli);
+            }
+        }
+        if(POSITION.get_distance(middle_pos, most_dubious_broccoli_position) <= broccoli_range){
+            //System.out.println("you won");
             end_game(true);
         }
     }
@@ -152,10 +163,14 @@ public class MAINWORLD extends World
         return inventory.retrieve_item(item);
     }
 
-    public boolean add_item(BLOCK item){
+    public boolean move_item_to_inv(BLOCK item){
         if(entities.contains(item)){
             entities.remove(item);
         }
+        if(items.contains(item)){
+            items.remove(item);
+        }
+        removeObject(item);
         return inventory.add_item(item);
     }
 
@@ -165,57 +180,38 @@ public class MAINWORLD extends World
         }
         removeObject(block);
     }
-    
+
     public POSITION get_block_middle(){
         POSITION pos = POSITION.add(top_left, middle);
         return pos;
     }
-    /*
-    public BLOCK get_block_at(POSITION position){
-        if(top_left == null || position == null){
-            return null;
+
+    public void drop_item(BLOCK item){
+        if(!items.contains(item)){
+            items.add(item);
         }
-        position.subtract(top_left);
-        List<BLOCK> blocks = getObjectsAt(position.get_x(), position.get_y(), BLOCK.class);
-        switch(blocks.size()){
-            case 0:
-                System.out.println("no block found at x:" + position.get_x()+ "y:" + position.get_y());
-                return null;
-            case 1:
-                return blocks.get(0);
-            default:
-                System.out.println("to many(" + blocks.size() + " )blocks found at x:" + position.get_x()+ "y:" + position.get_y());
-                return null;
-        }
+        item.set_mode(BLOCKMODE.ITEM);
     }
-    */
+
     public void pick_up_items(){
-        for(int i = 0; i < entities.size(); i++){
-            ENTITY e = entities.get(i);
-            if(e instanceof BLOCK){
-                BLOCK b = (BLOCK) e;
-                
-                if(b.get_mode() == BLOCKMODE.ITEM){
-                    System.out.println("pick up" + b.get_name());
-                    if(b.get_position() == null){
-                        continue;
-                    }
-                    if(POSITION.get_distance(b.get_position(), character.get_position()) < CHARACTER.pickup_range){
-                        if (inventory.add_item(b)){
-                            System.out.println("delete block");
-                            delete_block(b);
-                            if(b instanceof BROCCOLI){
-                                if(((BROCCOLI) b).get_dubious_lvl() == 5){
-                                    end_game(true);
-                                }
-                            }
-                        }
-                    }
+        List<BLOCK> to_add = new ArrayList<BLOCK>();
+        for(BLOCK item: items){
+            if(POSITION.get_distance(item.get_position(), get_block_middle()) < broccoli_range){
+                to_add.add(item);
+
+            }
+        }
+        for(BLOCK item: to_add){
+            move_item_to_inv(item);
+            if(item instanceof BROCCOLI){
+                if(((BROCCOLI) item).get_dubious_lvl() == 5){
+                    end_game(true);
                 }
             }
         }
     }
 
+    
     public boolean is_position_on_screen(POSITION position){
         if(position.get_x() > screen_size_x || position.get_x() < 0 ){
             return false;
@@ -230,6 +226,7 @@ public class MAINWORLD extends World
         POSITION middle = new POSITION(screen_size_x/2, screen_size_y/2);
         return POSITION.add(middle, top_left);
     }
+
     public static DIRECTION inverse_direction(DIRECTION direction)
     {
         switch(direction)
@@ -283,7 +280,7 @@ public class MAINWORLD extends World
         //error with compiler
         return null;
     }
-    
+
     public void end_game(boolean won){
         if(won){
             IMAGESHOWER win_screen = new IMAGESHOWER("hud/concrats_end_screen.png",(int) ((double)(screen_size_y)*0.60));
@@ -291,11 +288,11 @@ public class MAINWORLD extends World
             addObject(win_screen, middle.get_x(), middle.get_y());
             //win_screen.set_position(POSITION.subtract(middle, win_screen.get_size()));
             pause();
-            Greenfoot.delay(400);
+            Greenfoot.delay(50);
         }
         Greenfoot.stop();
     }
-    
+
     public void pause(){
         character.pause();
         clock.pause();
@@ -310,8 +307,21 @@ public class MAINWORLD extends World
         //add_item_cheat();
         change_weather_cheat();
         //cheats
+        if(drop_broccoli > 0){
+            drop_broccoli--;
+        }
+        if(drop_broccoli <= 0){
+            drop_all_broccolies();
+        }
         clock.update_time();
         coordinates.update_position(this);
+    }
+
+    public void drop_all_broccolies(){
+        List<BROCCOLI> broccolies = get_all_broccolies();
+        for(BROCCOLI broccoli: broccolies ){
+            drop_item(broccoli);
+        }
     }
 
     public void change_weather_cheat(){
@@ -347,7 +357,7 @@ public class MAINWORLD extends World
                 System.out.println("removing Stone failed");
             }
         }
-        
+
         if(Greenfoot.isKeyDown("U")){
             if (inventory.add_item(new WOOD())){
                 System.out.println("adding WOOD worked");
@@ -394,8 +404,7 @@ public class MAINWORLD extends World
                 System.out.println("removing Carrot failed");
             }
         }
-        
-        
+
     }
 
     public void set_weather(WEATHER weather){
@@ -410,11 +419,13 @@ public class MAINWORLD extends World
         character = getObjects(CHARACTER.class).get(0);
         add_huds();
         world_build();
+        drop_all_broccolies();
     }
-    
+
     public void world_build(){
         WORLDBUILDER builder = new WORLDBUILDER(this);
         builder.init();
+
     }
 
     public void add_huds(){
@@ -422,7 +433,7 @@ public class MAINWORLD extends World
             return;
         }
         huds_added = true;
-        //add_inventory();
+        add_inventory();
         add_clock();
         add_coordinates();
         add_weathershower();
@@ -448,19 +459,19 @@ public class MAINWORLD extends World
         int x = getWidth()-CLOCK.get_width_static() - weathershower.get_width() - 10;
         weathershower.init(this, new POSITION(x, 20));
     }
-    
+
     public void add_crafting_menu(){
         if(crafting_menu == null){
-                crafting_menu = new CRAFTINGMENU(this, (int)(((double) screen_size_y) * 0.5 ));
-                addObject(crafting_menu, screen_size_x/2, screen_size_y/2);
-                //POSITION middle = new POSITION(screen_size_x/2, screen_size_y/2);
-                //crafting_menu.set_position(middle);
-                Greenfoot.delay(20);
-            } else {
-                removeObject(crafting_menu);
-                crafting_menu = null;
-                Greenfoot.delay(20);
-            }
+            crafting_menu = new CRAFTINGMENU(this, (int)(((double) screen_size_y) * 0.5 ));
+            addObject(crafting_menu, screen_size_x/2, screen_size_y/2);
+            //POSITION middle = new POSITION(screen_size_x/2, screen_size_y/2);
+            //crafting_menu.set_position(middle);
+            Greenfoot.delay(20);
+        } else {
+            removeObject(crafting_menu);
+            crafting_menu = null;
+            Greenfoot.delay(20);
+        }
     }
 
     /*

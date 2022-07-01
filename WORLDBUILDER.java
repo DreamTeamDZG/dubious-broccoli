@@ -106,6 +106,9 @@ public class WORLDBUILDER
             int x = 0;
             for(int value: row){
                 BLOCK e = num_to_block(value);
+                if(e instanceof GRASS && Greenfoot.getRandomNumber(30) == 1){
+                    e = new BROCCOLI();
+                }
                 e.set_position(POSITION.add(new POSITION(x*MAINWORLD.block_size,y*MAINWORLD.block_size), offset));
                 e.set_mode(BLOCKMODE.BLOCK);
                 main_world.add_entity(e);
@@ -139,9 +142,12 @@ public class WORLDBUILDER
             case 4: return new WOOD();
             case 5: return new STONE();
             case 6: return new WILDGARLIC();
-            case 7: return new BROCCOLI();
+            //case 7: return new BROCCOLI();
+            case 7: return new GRASS();
             case 8: return new CARROT();
         }
         return null;
     }
+    
+    
 }

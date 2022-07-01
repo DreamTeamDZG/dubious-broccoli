@@ -35,7 +35,7 @@ public abstract class PLANT extends BLOCK
     public boolean is_fully_grown(){
         return growth_stage == growth_stage_image.length - 1;
     }
-    
+    /*
     public boolean place(POSITION position, MAINWORLD main_world){
         set_position(position);
         main_world.update_view();
@@ -61,7 +61,7 @@ public abstract class PLANT extends BLOCK
             return fields.get(0);
         }
         return null;
-    }
+    }*/
     
     
     public void set_location(POSITION position){

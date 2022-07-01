@@ -35,7 +35,7 @@ public class GRASS extends BLOCK
         return icon;
     }
     
-    public boolean is_stackable(){
+    public boolean is_stackable(BLOCK block){
         return true;
     }
     

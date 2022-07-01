@@ -145,17 +145,17 @@ public class CHARACTER extends Actor
         if(mouse_info != null){
             switch (mouse_info.getButton()){
                 case 1:
-                    System.out.println("block is being destroyed");
+                    //System.out.println("block is being destroyed");
                     break;
 
                 case 2:
-                    System.out.println("changing to next inv slot");
+                    //System.out.println("changing to next inv slot");
                     select_next_slot();
                     break;
                 case 3:
-                    System.out.println("block is being placed");
+                    //System.out.println("block is being placed");
                     //place_block();
-                    System.out.println("block is placed");
+                    //System.out.println("block is placed");
                     break;
 
             }
@@ -171,7 +171,7 @@ public class CHARACTER extends Actor
 
 
     public void pick_up_items(){
-        ((MAINWORLD) getWorld()).pick_up_items();
+        //((MAINWORLD) getWorld()).pick_up_items();
     }
 
 
@@ -202,55 +202,29 @@ public class CHARACTER extends Actor
             System.out.println("cant move further in this direction");
             vec.set_x(0);
         }*/
-        List<WATER> waters_one = getObjectsAtOffset(vec.get_x()*5,0, WATER.class);
+        List<WATER> waters_one = getObjectsInRange((int)vec.get_length()*MAINWORLD.block_size, WATER.class);
         if(waters_one.size() != 0){
-            System.out.println("cant move further in this direction, WATER");
+            //System.out.println("cant move further in this direction, WATER");
             MAINWORLD world = ((MAINWORLD) getWorld());
             for(WATER water: waters_one){
                 
                 POSITION dir = world.get_block_middle().direction_to(water.get_position());
-                System.out.println(" in direction x:" + dir.get_x() +"" + vec.get_x());
-                if(dir.get_x() == vec.get_x()){
-                    vec.set_x(0);
-                    break;
-                }
-                // wtf
-                if(dir.get_x() == 1 && vec.get_x() == -1){
-                    vec.set_x(0);
-                    break;
-                }
-            }
-            //vec.set_x(0);
-        }
-        
-        List<WATER> waters_two = getObjectsAtOffset(0,vec.get_y(), WATER.class);
-        if(waters_two.size() != 0){
-            System.out.print("cant move further in this direction, WATER");
-            MAINWORLD world = ((MAINWORLD) getWorld());
-            for(WATER water: waters_two){
-                POSITION dir = world.get_block_middle().direction_to(water.get_position());
-                System.out.println(" in direction y:" + dir.get_y() +"" + vec.get_y());
+                //System.out.println(" in direction x:" + dir.get_x() +"" + vec.get_x());
                 dir.inverse_y();
+                
                 if(dir.get_y() == vec.get_y()){
                     vec.set_y(0);
-                    break;
+                    //break;
+                }
+                
+                if(dir.get_x() == vec.get_x()){
+                    vec.set_x(0);
+                    //break;
                 }
             }
-            //vec.set_y(0);
         }
-        
-        /*
-        if(new_position.get_y() < MAINWORLD.border_top_left.get_y() && vec.get_y() < 0){
-            System.out.println("cant move further in this direction");
-            vec.set_y(0);
-        } else if(new_position.get_y() > MAINWORLD.border_bottom_right.get_y() && vec.get_y() > 0){
-            System.out.println("cant move further in this direction");
-            vec.set_y(0);
-        }*/
         position.add(vec);
         return vec;
-        //vec.inverse();
-        //position.add(vec);
     }
     /*
     public void place_block(){

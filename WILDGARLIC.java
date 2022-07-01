@@ -26,7 +26,7 @@ public class WILDGARLIC extends BLOCK
         return image;
     }
     
-    public boolean is_stackable(){
+    public boolean is_stackable(BLOCK block){
         return true;
     }
     

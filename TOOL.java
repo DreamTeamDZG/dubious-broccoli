@@ -24,7 +24,7 @@ public abstract class TOOL extends BLOCK
         return null;
     }
     
-    public boolean is_stackable(){
+    public boolean is_stackable(BLOCK block){
         return false;
     }
 

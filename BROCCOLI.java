@@ -31,7 +31,7 @@ public class BROCCOLI extends BLOCK
     
     
     public GreenfootImage get_icon(){
-        return icon;
+        return get_image();
     }
     
     public GreenfootImage get_image(){
@@ -40,8 +40,11 @@ public class BROCCOLI extends BLOCK
         return image;
     }
     
-    public boolean is_stackable(){
-        return true;
+    public boolean is_stackable(BLOCK block){
+        if(!(block instanceof BROCCOLI)){
+            return false;
+        }
+        return this.dubious_lvl == ((BROCCOLI) block).dubious_lvl;
     }
     
     public String get_name(){
