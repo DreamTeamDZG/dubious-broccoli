@@ -72,7 +72,13 @@ public abstract class BLOCK extends ENTITY
         }
     }
     
+    public void set_image(){
+        GreenfootImage img = get_image();
+        img.scale(MAINWORLD.block_size, MAINWORLD.block_size);
+        setImage(img);
+    }
+    
     protected void addedToWorld(World world){
-        setImage(get_image());
+        set_image();
     }
 }

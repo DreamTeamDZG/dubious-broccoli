@@ -17,7 +17,7 @@ public class WATER extends BLOCK
     }
     
     public void act(){
-        
+        /*
         MAINWORLD world = (MAINWORLD) getWorld();
         POSITION[] blocks_positions = new POSITION[4];
         
@@ -32,7 +32,7 @@ public class WATER extends BLOCK
             if(block instanceof FIELD){
                 ((FIELD) block).water();
             }
-        }
+        }*/
     }
     
     public GreenfootImage get_icon(){

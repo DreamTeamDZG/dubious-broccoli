@@ -36,7 +36,7 @@ public class COORDINATES
         main_world.addObject(x_equals, x_equals_position.get_x() + x_offset_equals, x_equals_position.get_y() + y_offset_equals);
         
         POSITION x_position = POSITION.add(position, new POSITION(x_equals.get_width(), 0));
-        x = new NUMBER(x_position, y_size, 3, 0);
+        x = new NUMBER(x_position, y_size, 4, 0);
         x.init(main_world);
         
         

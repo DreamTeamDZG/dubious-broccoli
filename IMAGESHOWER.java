@@ -84,4 +84,8 @@ public class IMAGESHOWER extends Actor
     public int get_height(){
         return image.getHeight();
     }
+    
+    public POSITION get_size(){
+        return new POSITION(get_width(), get_height());
+    }
 }

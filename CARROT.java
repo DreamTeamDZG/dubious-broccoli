@@ -6,12 +6,12 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class CARROT extends PLANT
+public class CARROT extends BLOCK
 {
     private GreenfootImage icon;
     private GreenfootImage image;
     public CARROT(){
-        super("blocks/plants/carrot/",5);
+        //super("blocks/plants/carrot/",5);
         icon = new GreenfootImage("inventory/icons/carrot/carrot_icon.png");
         image = icon;
         setImage(image);
@@ -36,7 +36,7 @@ public class CARROT extends PLANT
     }
     
     public int will_drop_item(TOOL tool){
-        if(tool.get_kind() == TOOLKIND.HOE && is_fully_grown()){
+        if(tool.get_kind() == TOOLKIND.HOE){
             return 1;
         }
         return -1;

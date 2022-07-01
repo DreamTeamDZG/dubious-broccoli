@@ -16,9 +16,9 @@ public class MAINWORLD extends World
     private POSITION top_left;
 
     // public as it is used in CHARACTER
-    public static final POSITION border_top_left = new POSITION(0,0);
-    public static final POSITION border_bottom_right = new POSITION(999, 999);
-    public static final int block_size = 16;
+    //public static final POSITION border_top_left = new POSITION(000,000);
+    //public static final POSITION border_bottom_right = new POSITION(1666,999);
+    public static final int block_size = 32;
 
     private List<ENTITY> entities;
     private CHARACTER character;
@@ -28,10 +28,16 @@ public class MAINWORLD extends World
     private COORDINATES coordinates;
     private INVENTORY inventory;
     private WEATHERSHOWER weathershower;
-    private static final int y_size = 30;
+    private static final int y_size = 18;
 
+    private static final POSITION character_offset_position = new POSITION(-70, 100);
+    
+    private POSITION most_dubious_broccoli_position;
+    private static final int broccoli_range = block_size / 2;
+    
     private static final int screen_size_x = (1920 / 10) * 8;
     private static final int screen_size_y = (1080 / 10) * 8;
+    private static final POSITION middle =  new POSITION(screen_size_x/2, screen_size_y/2);
     //1
     //
     private boolean huds_added = false;
@@ -43,15 +49,14 @@ public class MAINWORLD extends World
     {    
         super(screen_size_x, screen_size_y, 1);
         top_left = new POSITION(0,0);
-        POSITION middle = new POSITION(screen_size_x/2, screen_size_y/2);
         entities = new ArrayList<ENTITY>();
-        addObject(new CHARACTER(middle), middle.get_x(), middle.get_y());
-        setPaintOrder(CRAFTINGMENU.class, CHARACTER.class,INVENTORYSLOT.class, ENTITY.class, BACKGROUND.class);
+        addObject(new CHARACTER(POSITION.add(middle, character_offset_position)), middle.get_x(), middle.get_y());
+        setPaintOrder(DIGIT.class, IMAGESHOWER.class, CRAFTINGMENU.class, CHARACTER.class,INVENTORYSLOT.class, ENTITY.class, BACKGROUND.class);
         crafting_menu = null;
     }
 
     public void update_view(){
-        System.out.println("updateView");
+        //System.out.println("updateView");
         if(entities == null){
             return;
         }
@@ -69,7 +74,7 @@ public class MAINWORLD extends World
                     }
                     e.set_location(pos_screen);
                 } else {
-                    System.out.println("Entity is not on the screen, removing it from World");
+                    //System.out.println("Entity is not on the screen, removing it from World" + pos_screen.get_x() + " " + pos_screen.get_y());
                     e.set_visible(false);
                     removeObject(e);
                 }
@@ -79,6 +84,16 @@ public class MAINWORLD extends World
                 System.out.println("CloneNotSupportedExcpetion"+ cnse);
             }
         }
+    }
+    
+    public List<BROCCOLI> get_all_broccolies(){
+        List<BROCCOLI> broccolies = new ArrayList();
+        for(ENTITY e: entities){
+            if(e instanceof BROCCOLI){
+                broccolies.add((BROCCOLI)e);
+            }
+        }
+        return broccolies;
     }
 
     public void add_entity(ENTITY entity){
@@ -99,6 +114,18 @@ public class MAINWORLD extends World
         //System.out.println("top left "+top_left.get_x() + "|" + top_left.get_y());
 
         update_view();
+        check_for_broccoli();
+    }
+    
+    public void set_most_dubious_broccoli_position(POSITION position){
+        most_dubious_broccoli_position = position;
+    }
+    
+    public void check_for_broccoli(){
+        if(POSITION.get_distance(POSITION.add(top_left, middle), most_dubious_broccoli_position) <= broccoli_range){
+            System.out.println("you won");
+            end_game(true);
+        }
     }
 
     public void select_next_slot(){
@@ -138,7 +165,12 @@ public class MAINWORLD extends World
         }
         removeObject(block);
     }
-
+    
+    public POSITION get_block_middle(){
+        POSITION pos = POSITION.add(top_left, middle);
+        return pos;
+    }
+    /*
     public BLOCK get_block_at(POSITION position){
         if(top_left == null || position == null){
             return null;
@@ -156,7 +188,7 @@ public class MAINWORLD extends World
                 return null;
         }
     }
-
+    */
     public void pick_up_items(){
         for(int i = 0; i < entities.size(); i++){
             ENTITY e = entities.get(i);
@@ -256,10 +288,17 @@ public class MAINWORLD extends World
         if(won){
             IMAGESHOWER win_screen = new IMAGESHOWER("hud/concrats_end_screen.png",(int) ((double)(screen_size_y)*0.60));
             POSITION middle = new POSITION(screen_size_x/2, screen_size_y/2);
-            addObject(win_screen, 0,0);
-            win_screen.set_position(middle);
+            addObject(win_screen, middle.get_x(), middle.get_y());
+            //win_screen.set_position(POSITION.subtract(middle, win_screen.get_size()));
+            pause();
+            Greenfoot.delay(400);
         }
         Greenfoot.stop();
+    }
+    
+    public void pause(){
+        character.pause();
+        clock.pause();
     }
 
     public CHARACTER get_character(){
@@ -268,7 +307,7 @@ public class MAINWORLD extends World
 
     public void act(){
         // cheats
-        add_item_cheat();
+        //add_item_cheat();
         change_weather_cheat();
         //cheats
         clock.update_time();
@@ -383,7 +422,7 @@ public class MAINWORLD extends World
             return;
         }
         huds_added = true;
-        add_inventory();
+        //add_inventory();
         add_clock();
         add_coordinates();
         add_weathershower();

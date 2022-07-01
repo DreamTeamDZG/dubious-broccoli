@@ -1,5 +1,5 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import java.util.List;
 /**
  * Write a description of class CHARACTER here.
  * 
@@ -12,6 +12,7 @@ public class CHARACTER extends Actor
     private String name;
 
 
+    private boolean paused = false;
     public static final double pickup_range = 8;
     private boolean wheel_pressed; // two events on press
     DIRECTION current_direction;
@@ -51,6 +52,10 @@ public class CHARACTER extends Actor
     public void set_name(String name)
     {
         this.name = name;
+    }
+    
+    public void pause(){
+        paused = true;
     }
 
     public void loadImage()
@@ -98,6 +103,9 @@ public class CHARACTER extends Actor
 
     private void control()
     {
+        if(paused){
+            return;
+        }
         DIRECTION direction_x = DIRECTION.ZERO;
         DIRECTION direction_y = DIRECTION.ZERO;
 
@@ -146,7 +154,7 @@ public class CHARACTER extends Actor
                     break;
                 case 3:
                     System.out.println("block is being placed");
-                    place_block();
+                    //place_block();
                     System.out.println("block is placed");
                     break;
 
@@ -186,27 +194,65 @@ public class CHARACTER extends Actor
     //returns the vector it CAN move
     public POSITION move_vec(POSITION vec){
         POSITION new_position = POSITION.add(position, vec);
+        /*
         if(new_position.get_x() < MAINWORLD.border_top_left.get_x() && vec.get_x() < 0){
             System.out.println("cant move further in this direction");
             vec.set_x(0);
         } else if(new_position.get_x() > MAINWORLD.border_bottom_right.get_x() && vec.get_x() > 0){
             System.out.println("cant move further in this direction");
             vec.set_x(0);
+        }*/
+        List<WATER> waters_one = getObjectsAtOffset(vec.get_x()*5,0, WATER.class);
+        if(waters_one.size() != 0){
+            System.out.println("cant move further in this direction, WATER");
+            MAINWORLD world = ((MAINWORLD) getWorld());
+            for(WATER water: waters_one){
+                
+                POSITION dir = world.get_block_middle().direction_to(water.get_position());
+                System.out.println(" in direction x:" + dir.get_x() +"" + vec.get_x());
+                if(dir.get_x() == vec.get_x()){
+                    vec.set_x(0);
+                    break;
+                }
+                // wtf
+                if(dir.get_x() == 1 && vec.get_x() == -1){
+                    vec.set_x(0);
+                    break;
+                }
+            }
+            //vec.set_x(0);
         }
-
+        
+        List<WATER> waters_two = getObjectsAtOffset(0,vec.get_y(), WATER.class);
+        if(waters_two.size() != 0){
+            System.out.print("cant move further in this direction, WATER");
+            MAINWORLD world = ((MAINWORLD) getWorld());
+            for(WATER water: waters_two){
+                POSITION dir = world.get_block_middle().direction_to(water.get_position());
+                System.out.println(" in direction y:" + dir.get_y() +"" + vec.get_y());
+                dir.inverse_y();
+                if(dir.get_y() == vec.get_y()){
+                    vec.set_y(0);
+                    break;
+                }
+            }
+            //vec.set_y(0);
+        }
+        
+        /*
         if(new_position.get_y() < MAINWORLD.border_top_left.get_y() && vec.get_y() < 0){
             System.out.println("cant move further in this direction");
             vec.set_y(0);
         } else if(new_position.get_y() > MAINWORLD.border_bottom_right.get_y() && vec.get_y() > 0){
             System.out.println("cant move further in this direction");
             vec.set_y(0);
-        }
+        }*/
         position.add(vec);
         return vec;
         //vec.inverse();
         //position.add(vec);
     }
-
+    /*
     public void place_block(){
         MAINWORLD world = ((MAINWORLD) getWorld());
         BLOCK current_block = world.get_selected_item();
@@ -227,7 +273,7 @@ public class CHARACTER extends Actor
             BLOCK block = world.get_block_at(block_position);
             block.use(current_tool);
         }
-    }
+    }*/
 
     public static POSITION get_next_block_position(POSITION position, DIRECTION ew, DIRECTION ns){
         if(ew == DIRECTION.ZERO && ns == DIRECTION.ZERO){
@@ -247,7 +293,7 @@ public class CHARACTER extends Actor
             if((place_position.get_x() % MAINWORLD.block_size) == 0 && (place_position.get_y() % MAINWORLD.block_size) == 0){
                 return place_position;
             }
-            System.out.println("cant find correct block " + place_position.get_x() +"  "+ place_position.get_y());
+            //System.out.println("cant find correct block " + place_position.get_x() +"  "+ place_position.get_y());
             return null;
         }
         catch (CloneNotSupportedException cnse)
@@ -343,9 +389,9 @@ public class CHARACTER extends Actor
     public void act()
     {
         control();
-        mouse_interactions();
+        //mouse_interactions();
         crafting_control();
         loadImage();
-        pick_up_items();
+        //pick_up_items();
     }
 }

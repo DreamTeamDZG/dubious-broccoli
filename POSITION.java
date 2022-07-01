@@ -58,6 +58,25 @@ public class POSITION implements Cloneable
         y = y - p.get_y();
     }
     
+    public POSITION direction_to(POSITION p){
+        POSITION delta = subtract(p, this);
+        int x = delta.get_x();
+        int y = delta.get_y();
+        if(x != 0){
+            delta.set_x(x/ Math.abs(x));
+        } else {
+            delta.set_x(0);
+        }
+        
+        if (y != 0){
+            delta.set_y(y / Math.abs(y));
+        } else {
+            delta.set_y(0);
+        }
+        
+        return delta;
+    }
+    
     public static POSITION add(POSITION p_1, POSITION p_2){
         return new POSITION(p_1.get_x() + p_2.get_x(), p_1.get_y() + p_2.get_y());
     }
