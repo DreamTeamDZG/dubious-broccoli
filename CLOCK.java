@@ -23,6 +23,8 @@ public class CLOCK
     
     private int y_size;
     
+    private boolean paused;
+    
     
     private IMAGESHOWER day_colon;
     // replace this with the new texture
@@ -83,14 +85,14 @@ public class CLOCK
         int max_height = Math.max(display_hour.get_height(), Math.max(display_minute.get_height(), colon.get_height()));
         POSITION day_colon_pos = POSITION.add(position, new POSITION(0, max_height));
         day_colon = new IMAGESHOWER(day_colon_path,y_size);
-        main_world.addObject(day_colon, 0, 0);
+        //main_world.addObject(day_colon, 0, 0);
         day_colon.set_position(POSITION.add(day_colon_pos, new POSITION(5, -22)));
         System.out.println("created display day colon");
         
         
         POSITION day_pos = POSITION.add(day_colon_pos, new POSITION(day_colon.get_width(),0));
         display_day = new NUMBER(day_pos, y_size, 2,0);
-        display_day.init(main_world);
+        //display_day.init(main_world);
         System.out.println("created display day");
         
     }
@@ -104,13 +106,16 @@ public class CLOCK
     }
 
     public void update_time(){
+        if(paused){
+            return;
+        }
         Instant now = Instant.now();
         millis = millis + (int) Duration.between(last, now).toMillis();
         while(millis >= 1000){
             millis = millis - 1000;
             minute++;
             // debug
-            minute += 10;
+            //minute += 10;
             // debug
         }
         while(minute >= 60){
@@ -126,7 +131,11 @@ public class CLOCK
         
         display_minute.set_number(minute);
         display_hour.set_number(hour);
-        display_day.set_number(day);
+        //display_day.set_number(day);
+    }
+    
+    public void pause(){
+        paused = true;
     }
     
     public void set_random_weather(){

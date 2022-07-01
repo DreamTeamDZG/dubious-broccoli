@@ -17,8 +17,4 @@ public class HOESTONE extends HOE
         return ingredients;
     }
 
-    public double get_speed_multiplier(){
-        return 1.5;
-    }
-
 }

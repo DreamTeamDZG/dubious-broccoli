@@ -14,23 +14,30 @@ import java.awt.event.*;
 public class MAINWORLD extends World
 {
     private POSITION top_left;
-    
+
     // public as it is used in CHARACTER
-    public static final POSITION border_top_left = new POSITION(0,0);
-    public static final POSITION border_bottom_right = new POSITION(999, 999);
-    public static final int block_size = 16;
-    
+    //public static final POSITION border_top_left = new POSITION(000,000);
+    //public static final POSITION border_bottom_right = new POSITION(1666,999);
+    public static final int block_size = 32;
+
     private List<ENTITY> entities;
     private CHARACTER character;
 
+    private CRAFTINGMENU crafting_menu;
     private CLOCK clock;
     private COORDINATES coordinates;
     private INVENTORY inventory;
     private WEATHERSHOWER weathershower;
-    private static final int y_size = 30;
+    private static final int y_size = 18;
 
+    private static final POSITION character_offset_position = new POSITION(-70, 100);
+    
+    private POSITION most_dubious_broccoli_position;
+    private static final int broccoli_range = block_size / 2;
+    
     private static final int screen_size_x = (1920 / 10) * 8;
     private static final int screen_size_y = (1080 / 10) * 8;
+    private static final POSITION middle =  new POSITION(screen_size_x/2, screen_size_y/2);
     //1
     //
     private boolean huds_added = false;
@@ -42,21 +49,23 @@ public class MAINWORLD extends World
     {    
         super(screen_size_x, screen_size_y, 1);
         top_left = new POSITION(0,0);
-        POSITION middle = new POSITION(screen_size_x/2, screen_size_y/2);
         entities = new ArrayList<ENTITY>();
-        addObject(new CHARACTER(middle), middle.get_x(), middle.get_y());
-        add_entity(new BACKGROUND());
-        setPaintOrder(CHARACTER.class, ENTITY.class, BACKGROUND.class);
+        addObject(new CHARACTER(POSITION.add(middle, character_offset_position)), middle.get_x(), middle.get_y());
+        setPaintOrder(DIGIT.class, IMAGESHOWER.class, CRAFTINGMENU.class, CHARACTER.class,INVENTORYSLOT.class, ENTITY.class, BACKGROUND.class);
+        crafting_menu = null;
     }
 
     public void update_view(){
-        System.out.println("updateView");
+        //System.out.println("updateView");
         if(entities == null){
             return;
         }
         for(ENTITY e : entities){
             try
             {
+                if(e.get_position() == null){
+                    continue;
+                }
                 POSITION pos_screen = (POSITION) e.get_position().clone();
                 pos_screen.subtract(top_left);
                 if(is_position_on_screen(pos_screen)){
@@ -65,7 +74,7 @@ public class MAINWORLD extends World
                     }
                     e.set_location(pos_screen);
                 } else {
-                    System.out.println("Entity is not on the screen, removing it from World");
+                    //System.out.println("Entity is not on the screen, removing it from World" + pos_screen.get_x() + " " + pos_screen.get_y());
                     e.set_visible(false);
                     removeObject(e);
                 }
@@ -77,20 +86,21 @@ public class MAINWORLD extends World
         }
     }
     
+    public List<BROCCOLI> get_all_broccolies(){
+        List<BROCCOLI> broccolies = new ArrayList();
+        for(ENTITY e: entities){
+            if(e instanceof BROCCOLI){
+                broccolies.add((BROCCOLI)e);
+            }
+        }
+        return broccolies;
+    }
+
     public void add_entity(ENTITY entity){
         System.out.println("adding entity");
         if(!entities.contains(entity)){
             entities.add(entity);
 
-        }
-        addObject(entity, 0, 0);
-        update_view();
-    }
-    
-    public void add_entity(ENTITY entity){
-        System.out.println("adding entity");
-        if(!entities.contains(entity)){
-            entities.add(entity);
         }
         addObject(entity, 0, 0);
         update_view();
@@ -102,14 +112,26 @@ public class MAINWORLD extends World
         direction_pos.inverse_y();
         top_left.add(direction_pos);
         //System.out.println("top left "+top_left.get_x() + "|" + top_left.get_y());
-        
+
         update_view();
+        check_for_broccoli();
     }
     
+    public void set_most_dubious_broccoli_position(POSITION position){
+        most_dubious_broccoli_position = position;
+    }
+    
+    public void check_for_broccoli(){
+        if(POSITION.get_distance(POSITION.add(top_left, middle), most_dubious_broccoli_position) <= broccoli_range){
+            System.out.println("you won");
+            end_game(true);
+        }
+    }
+
     public void select_next_slot(){
         inventory.select_next_slot();
     }
-    
+
     public void select_prev_slot(){
         inventory.select_prev_slot();
     }
@@ -117,7 +139,7 @@ public class MAINWORLD extends World
     public BLOCK get_selected_item(){
         return inventory.get_selected_item();
     }
-    
+
     public BLOCK retrieve_selected_item(){
         BLOCK item = inventory.retrieve_selected_item();
         if(!entities.contains(item)){
@@ -125,7 +147,6 @@ public class MAINWORLD extends World
         }
         return item;
     }
-    
 
     public BLOCK retrieve_item(BLOCK item){
         return inventory.retrieve_item(item);
@@ -137,7 +158,7 @@ public class MAINWORLD extends World
         }
         return inventory.add_item(item);
     }
-    
+
     public void delete_block(BLOCK block){
         if(entities.contains(block)){
             entities.remove(block);
@@ -145,7 +166,15 @@ public class MAINWORLD extends World
         removeObject(block);
     }
     
+    public POSITION get_block_middle(){
+        POSITION pos = POSITION.add(top_left, middle);
+        return pos;
+    }
+    /*
     public BLOCK get_block_at(POSITION position){
+        if(top_left == null || position == null){
+            return null;
+        }
         position.subtract(top_left);
         List<BLOCK> blocks = getObjectsAt(position.get_x(), position.get_y(), BLOCK.class);
         switch(blocks.size()){
@@ -159,23 +188,34 @@ public class MAINWORLD extends World
                 return null;
         }
     }
-    
-
+    */
     public void pick_up_items(){
-        for(ENTITY e: entities){
+        for(int i = 0; i < entities.size(); i++){
+            ENTITY e = entities.get(i);
             if(e instanceof BLOCK){
                 BLOCK b = (BLOCK) e;
+                
                 if(b.get_mode() == BLOCKMODE.ITEM){
-                    if(b.get_position().get_distance_to(character.get_position()) < CHARACTER.pickup_range){
+                    System.out.println("pick up" + b.get_name());
+                    if(b.get_position() == null){
+                        continue;
+                    }
+                    if(POSITION.get_distance(b.get_position(), character.get_position()) < CHARACTER.pickup_range){
                         if (inventory.add_item(b)){
+                            System.out.println("delete block");
                             delete_block(b);
+                            if(b instanceof BROCCOLI){
+                                if(((BROCCOLI) b).get_dubious_lvl() == 5){
+                                    end_game(true);
+                                }
+                            }
                         }
                     }
                 }
             }
         }
     }
-    
+
     public boolean is_position_on_screen(POSITION position){
         if(position.get_x() > screen_size_x || position.get_x() < 0 ){
             return false;
@@ -186,6 +226,10 @@ public class MAINWORLD extends World
         return true;
     }
 
+    public POSITION get_position_middle(){
+        POSITION middle = new POSITION(screen_size_x/2, screen_size_y/2);
+        return POSITION.add(middle, top_left);
+    }
     public static DIRECTION inverse_direction(DIRECTION direction)
     {
         switch(direction)
@@ -240,13 +284,30 @@ public class MAINWORLD extends World
         return null;
     }
     
+    public void end_game(boolean won){
+        if(won){
+            IMAGESHOWER win_screen = new IMAGESHOWER("hud/concrats_end_screen.png",(int) ((double)(screen_size_y)*0.60));
+            POSITION middle = new POSITION(screen_size_x/2, screen_size_y/2);
+            addObject(win_screen, middle.get_x(), middle.get_y());
+            //win_screen.set_position(POSITION.subtract(middle, win_screen.get_size()));
+            pause();
+            Greenfoot.delay(400);
+        }
+        Greenfoot.stop();
+    }
+    
+    public void pause(){
+        character.pause();
+        clock.pause();
+    }
+
     public CHARACTER get_character(){
         return character;
     }
 
     public void act(){
         // cheats
-        add_item_cheat();
+        //add_item_cheat();
         change_weather_cheat();
         //cheats
         clock.update_time();
@@ -286,6 +347,21 @@ public class MAINWORLD extends World
                 System.out.println("removing Stone failed");
             }
         }
+        
+        if(Greenfoot.isKeyDown("U")){
+            if (inventory.add_item(new WOOD())){
+                System.out.println("adding WOOD worked");
+            } else {
+                System.out.println("adding WOOD failed");
+            }
+        }
+        if(Greenfoot.isKeyDown("J")){
+            if (inventory.retrieve_item(new WOOD()) != null){
+                System.out.println("removing WOOD worked");
+            } else {
+                System.out.println("removing WOOD failed");
+            }
+        }
 
         if(Greenfoot.isKeyDown("i")){
             if (inventory.add_item(new BROCCOLI())){
@@ -303,7 +379,7 @@ public class MAINWORLD extends World
                 System.out.println("removing Broccoli failed");
             }
         }
-        
+
         if(Greenfoot.isKeyDown("ä")){
             if (inventory.add_item(new CARROT())){
                 System.out.println("adding Carrot worked");
@@ -318,12 +394,14 @@ public class MAINWORLD extends World
                 System.out.println("removing Carrot failed");
             }
         }
+        
+        
     }
-    
+
     public void set_weather(WEATHER weather){
         weathershower.set_weather(weather);
     }
-    
+
     public WEATHER get_weather(){
         return weathershower.get_weather();
     }
@@ -331,14 +409,20 @@ public class MAINWORLD extends World
     public void started(){
         character = getObjects(CHARACTER.class).get(0);
         add_huds();
+        world_build();
     }
     
+    public void world_build(){
+        WORLDBUILDER builder = new WORLDBUILDER(this);
+        builder.init();
+    }
+
     public void add_huds(){
         if(huds_added){
             return;
         }
         huds_added = true;
-        add_inventory();
+        //add_inventory();
         add_clock();
         add_coordinates();
         add_weathershower();
@@ -365,18 +449,32 @@ public class MAINWORLD extends World
         weathershower.init(this, new POSITION(x, 20));
     }
     
+    public void add_crafting_menu(){
+        if(crafting_menu == null){
+                crafting_menu = new CRAFTINGMENU(this, (int)(((double) screen_size_y) * 0.5 ));
+                addObject(crafting_menu, screen_size_x/2, screen_size_y/2);
+                //POSITION middle = new POSITION(screen_size_x/2, screen_size_y/2);
+                //crafting_menu.set_position(middle);
+                Greenfoot.delay(20);
+            } else {
+                removeObject(crafting_menu);
+                crafting_menu = null;
+                Greenfoot.delay(20);
+            }
+    }
+
     /*
     public void mouseWheelMoved(MouseWheelEvent e){
-        System.out.println("MouseWheel");
-        int rot = e.getWheelRotation();
-        if(rot > 0){
-            for(int i = 0;i<rot; i++){
-                select_next_slot();
-            }
-        } else if (rot < 0){
-            for(int i = 0;i<(-rot); i++){
-                select_next_slot();
-            }
-        }
+    System.out.println("MouseWheel");
+    int rot = e.getWheelRotation();
+    if(rot > 0){
+    for(int i = 0;i<rot; i++){
+    select_next_slot();
+    }
+    } else if (rot < 0){
+    for(int i = 0;i<(-rot); i++){
+    select_next_slot();
+    }
+    }
     }*/
 }

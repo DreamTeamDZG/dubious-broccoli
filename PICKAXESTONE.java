@@ -23,7 +23,4 @@ public class PICKAXESTONE extends PICKAXE
         
         return ingredients;
     }
-    public double get_speed_multiplier(){
-        return 1.5;
-    }
 }

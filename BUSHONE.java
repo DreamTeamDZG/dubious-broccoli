@@ -1,23 +1,22 @@
-import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
-
+import greenfoot.*;
 /**
- * Write a description of class BROCCOLI here.
+ * Write a description of class BUSHONE here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class CARROT extends BLOCK
+public class BUSHONE extends BLOCK 
 {
+    // instance variables - replace the example below with your own
     private GreenfootImage icon;
     private GreenfootImage image;
-    public CARROT(){
-        //super("blocks/plants/carrot/",5);
-        icon = new GreenfootImage("inventory/icons/carrot/carrot_icon.png");
-        image = icon;
-        setImage(image);
+    /**
+     * Constructor for objects of class BUSHONE
+     */
+    public BUSHONE(){
+        icon = new GreenfootImage("blocks/bush/bush_small_1.png");
+        image = new GreenfootImage("blocks/bush/bush_small_1.png");
     }
-    
-    
     
     public GreenfootImage get_icon(){
         return icon;
@@ -32,17 +31,14 @@ public class CARROT extends BLOCK
     }
     
     public String get_name(){
-        return "carrot";
+        return "bushone";
     }
     
     public int will_drop_item(TOOL tool){
-        if(tool.get_kind() == TOOLKIND.HOE){
-            return 1;
-        }
-        return -1;
+        return 1;
     }
     
     public boolean is_placeable(){
-        return true;
+        return false;
     }
 }

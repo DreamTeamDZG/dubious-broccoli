@@ -14,6 +14,7 @@ public class STONE extends BLOCK
      */
     public STONE(){
         icon = new GreenfootImage("blocks/stone/stone_small_1.png");
+        
     }
     
     public GreenfootImage get_icon(){
@@ -37,6 +38,6 @@ public class STONE extends BLOCK
     }
     
     public boolean is_placeable(){
-        return false;
+        return true;
     }
 }

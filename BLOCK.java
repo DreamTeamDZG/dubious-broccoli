@@ -13,6 +13,8 @@ public abstract class BLOCK extends ENTITY
     
     private int time_broken = 0; // if 1000 then break; on act -- -> 0
 
+
+    
     public abstract String get_name();
     public abstract boolean is_stackable();
     public abstract GreenfootImage get_icon();
@@ -55,16 +57,28 @@ public abstract class BLOCK extends ENTITY
         return mode;
     }
     
-    public void place(POSITION position){
-        //setting the posiiton
+    public boolean place(POSITION position, MAINWORLD main_world){
         System.out.println("placing block at"+ position);
-        set_position(position);
         if(is_placeable()){
-            ((MAINWORLD) getWorld()).add_entity(this);
-            mode = BLOCKMODE.ITEM;
+            main_world.add_entity(this);
+            mode = BLOCKMODE.BLOCK;
+            System.out.println("block_mode set");
             setImage(get_image());
+            set_position(position);
+            return true;
         } else {
             System.out.println("cannot place block " + get_name());
+            return false;
         }
+    }
+    
+    public void set_image(){
+        GreenfootImage img = get_image();
+        img.scale(MAINWORLD.block_size, MAINWORLD.block_size);
+        setImage(img);
+    }
+    
+    protected void addedToWorld(World world){
+        set_image();
     }
 }

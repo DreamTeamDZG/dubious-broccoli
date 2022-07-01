@@ -17,7 +17,4 @@ public class HOEWOOD extends HOE
         
         return ingredients;
     }
-    public double get_speed_multiplier(){
-        return 1;
-    }
 }
