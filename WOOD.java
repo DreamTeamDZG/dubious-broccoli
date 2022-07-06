@@ -5,7 +5,7 @@ import greenfoot.*;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class WOOD extends BLOCK
+public class WOOD extends NEEDSBACKGROUND
 {
     private GreenfootImage icon;
     private GreenfootImage image;

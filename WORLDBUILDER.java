@@ -112,25 +112,43 @@ public class WORLDBUILDER
                 e.set_position(POSITION.add(new POSITION(x*MAINWORLD.block_size,y*MAINWORLD.block_size), offset));
                 e.set_mode(BLOCKMODE.BLOCK);
                 main_world.add_entity(e);
+                if(e instanceof NEEDSBACKGROUND){
+                    GRASS g = new GRASS();
+                    g.set_position(POSITION.add(new POSITION(x*MAINWORLD.block_size,y*MAINWORLD.block_size), offset));
+                    g.set_mode(BLOCKMODE.BLOCK);
+                    main_world.add_entity(g);
+                }
                 x++;
             }
             y++;
         }
         
         List<BROCCOLI> broccolies = main_world.get_all_broccolies();
-        int most_dubious_idx = Greenfoot.getRandomNumber(broccolies.size());
-        broccolies.get(most_dubious_idx).set_dubious_lvl(5);
+        
+        
         for(int i = 0; i < broccolies.size(); i++){
             BROCCOLI broccoli = broccolies.get(i);
-            if(i == most_dubious_idx){
-                
-                broccoli.set_image();
-                continue;
-            }
-            broccoli.set_dubious_lvl(Greenfoot.getRandomNumber(4) + 1);
+            broccoli.set_dubious_lvl(Greenfoot.getRandomNumber(5) + 1);
             broccoli.set_image();
         }
-        main_world.set_most_dubious_broccoli_position(broccolies.get(most_dubious_idx).get_position());
+        ensure_one_most_dubious_in_world(main_world, broccolies);
+        //int most_dubious_idx = Greenfoot.getRandomNumber(broccolies.size());
+        //broccolies.get(most_dubious_idx).set_dubious_lvl(5);
+        //main_world.set_most_dubious_broccoli_position(broccolies.get(most_dubious_idx).get_position());
+    }
+    
+    public void ensure_one_most_dubious_in_world(MAINWORLD main_world, List<BROCCOLI> broccolies){
+        boolean one_max_found = false;
+        for(BROCCOLI b: broccolies){
+            if(b.get_dubious_lvl() == 5){
+                one_max_found = true;
+                break;
+            }
+        }
+        if(!one_max_found){
+            int most_dubious_idx = Greenfoot.getRandomNumber(broccolies.size());
+            broccolies.get(most_dubious_idx).set_dubious_lvl(5);
+        }
     }
     
     public BLOCK num_to_block(int number){

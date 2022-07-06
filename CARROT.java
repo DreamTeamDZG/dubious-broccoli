@@ -6,7 +6,7 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class CARROT extends BLOCK
+public class CARROT extends NEEDSBACKGROUND
 {
     private GreenfootImage icon;
     private GreenfootImage image;

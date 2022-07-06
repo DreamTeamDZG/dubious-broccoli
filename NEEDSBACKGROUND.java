@@ -7,19 +7,19 @@ import java.util.List;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public abstract class PLANT extends BLOCK
+public abstract class NEEDSBACKGROUND extends BLOCK
 {
-    private int growth_stage = 0;
-    protected GreenfootImage[] growth_stage_image;
-    PLANT(String path, int growth_stage_count ){
+    //private int growth_stage = 0;
+    //protected GreenfootImage[] growth_stage_image;
+    /*PLANT(String path, int growth_stage_count ){
         growth_stage_image = new GreenfootImage[growth_stage_count];
         for(int i = 0; i< growth_stage_count; i++){
             growth_stage_image[i] = new GreenfootImage(path + get_name() + "_plant_phase_" + i + ".png");
         }
         setImage(growth_stage_image[0]);
-    }
+    }*/
     
-    public boolean grow(){
+    /*public boolean grow(){
         if(((MAINWORLD) getWorld()).get_weather() == WEATHER.RAINY){
             return false;
         }
@@ -30,11 +30,11 @@ public abstract class PLANT extends BLOCK
         }
         growth_stage--;
         return false;
-    }
+    }*/
     
-    public boolean is_fully_grown(){
+    /*public boolean is_fully_grown(){
         return growth_stage == growth_stage_image.length - 1;
-    }
+    }*/
     /*
     public boolean place(POSITION position, MAINWORLD main_world){
         set_position(position);
@@ -63,13 +63,13 @@ public abstract class PLANT extends BLOCK
         return null;
     }*/
     
-    
+    /*
     public void set_location(POSITION position){
         setImage(get_image());
         set_position(position);
-    }
-    
+    }*/
+    /*
     public GreenfootImage get_image(){
         return growth_stage_image[growth_stage];
-    }
+    }*/
 }

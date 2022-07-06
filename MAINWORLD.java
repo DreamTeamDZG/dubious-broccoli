@@ -54,7 +54,7 @@ public class MAINWORLD extends World
         entities = new ArrayList<ENTITY>();
         items = new ArrayList<BLOCK>();
         addObject(new CHARACTER(POSITION.add(middle, character_offset_position)), middle.get_x(), middle.get_y());
-        setPaintOrder(DIGIT.class, IMAGESHOWER.class, CRAFTINGMENU.class, CHARACTER.class,INVENTORYSLOT.class, ENTITY.class, BACKGROUND.class);
+        setPaintOrder(DIGIT.class, IMAGESHOWER.class, CRAFTINGMENU.class, CHARACTER.class,INVENTORYSLOT.class, NEEDSBACKGROUND.class, ENTITY.class, BACKGROUND.class);
         crafting_menu = null;
     }
 
@@ -100,7 +100,9 @@ public class MAINWORLD extends World
     }
 
     public void add_entity(ENTITY entity){
-        //System.out.println("adding entity");
+        if(entity instanceof BROCCOLI){
+            System.out.println("adding entity");
+        }
         if(!entities.contains(entity)){
             entities.add(entity);
 
@@ -125,7 +127,7 @@ public class MAINWORLD extends World
         most_dubious_broccoli_position = position;
     }
 
-    public void check_for_broccoli(){
+    /*public void check_for_broccoli(){
         List<BROCCOLI> broccolies = get_all_broccolies();
         POSITION middle_pos = POSITION.add(top_left, middle);
         for(BROCCOLI broccoli : broccolies){
@@ -137,7 +139,7 @@ public class MAINWORLD extends World
             //System.out.println("you won");
             end_game(true);
         }
-    }
+    }*/
 
     public void select_next_slot(){
         inventory.select_next_slot();
@@ -205,7 +207,16 @@ public class MAINWORLD extends World
             move_item_to_inv(item);
             if(item instanceof BROCCOLI){
                 if(((BROCCOLI) item).get_dubious_lvl() == 5){
-                    end_game(true);
+                    List<BROCCOLI> broccolies = get_all_broccolies();
+                    boolean one_most_dubious_left = false;
+                    for(BROCCOLI broccoli: broccolies){
+                        if(broccoli.get_dubious_lvl() == 5){
+                            one_most_dubious_left = true;
+                        }
+                    }
+                    if(!one_most_dubious_left){
+                        end_game(true);
+                    }
                 }
             }
         }
@@ -305,7 +316,7 @@ public class MAINWORLD extends World
     public void act(){
         // cheats
         //add_item_cheat();
-        change_weather_cheat();
+        //change_weather_cheat();
         //cheats
         if(drop_broccoli > 0){
             drop_broccoli--;
@@ -418,6 +429,7 @@ public class MAINWORLD extends World
     public void started(){
         character = getObjects(CHARACTER.class).get(0);
         add_huds();
+        BROCCOLI.set_dubious_offset(Greenfoot.getRandomNumber(4));
         world_build();
         drop_all_broccolies();
     }
@@ -472,6 +484,13 @@ public class MAINWORLD extends World
             crafting_menu = null;
             Greenfoot.delay(20);
         }
+    }
+    
+    public void prime_property(){
+        IMAGESHOWER img = new IMAGESHOWER(get_all_broccolies().get(0).get_most_dubious_icon(),(int)(((double) screen_size_y) * 0.5 ));
+        addObject(img, screen_size_x/2, screen_size_y/2);
+        Greenfoot.delay(30);
+        removeObject(img);
     }
 
     /*

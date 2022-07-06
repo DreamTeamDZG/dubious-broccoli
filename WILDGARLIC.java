@@ -5,7 +5,7 @@ import greenfoot.*;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class WILDGARLIC extends BLOCK 
+public class WILDGARLIC extends NEEDSBACKGROUND 
 {
     // instance variables - replace the example below with your own
     private GreenfootImage icon;

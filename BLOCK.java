@@ -26,7 +26,11 @@ public abstract class BLOCK extends ENTITY
         if(mode == BLOCKMODE.ITEM){
             return;
         }
-        double time = ((double)will_drop_item(tool)) / tool.get_speed_multiplier();
+        double speed_multiplier = 1;
+        if(tool != null){
+            speed_multiplier = tool.get_speed_multiplier();
+        }
+        double time = ((double)will_drop_item(tool)) / speed_multiplier;
         if(time == 0){
             System.out.println("instant break");
             //drop_item();

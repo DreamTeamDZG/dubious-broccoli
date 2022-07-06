@@ -12,7 +12,7 @@ public class FIELD extends BLOCK
 {
     private boolean hoed;
     private GreenfootImage img;
-    private PLANT plant;
+    //private PLANT plant;
     private int watered_amount;
     private static final int watered_full = 1000000;
     private static final int grow_clocking_ms = 10000;
@@ -31,9 +31,9 @@ public class FIELD extends BLOCK
         watered_amount = watered_full;
     }
     
-    public void add_plant(PLANT plant){
+    /*public void add_plant(PLANT plant){
         this.plant = plant;
-    }
+    }*/
     
     public String get_name(){
         return "FIELD";
@@ -59,7 +59,7 @@ public class FIELD extends BLOCK
         return null;
     }
     
-    public void grow(){
+    /*public void grow(){
         if(watered_amount > 0 && plant != null){
             if (plant.grow()){
                 last = Instant.now();
@@ -71,12 +71,12 @@ public class FIELD extends BLOCK
                 System.out.println("growing plant; watered_amount " + watered_amount);
             }
         }
-    }
+    }*/
     
     public void act(){
         Instant now = Instant.now();
         if((int) Duration.between(last, now).toMillis() > grow_clocking_ms){
-            grow();
+            //grow();
         }
     }
 }

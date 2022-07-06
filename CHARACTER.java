@@ -10,6 +10,7 @@ public class CHARACTER extends Actor
 {
     POSITION position;
     private String name;
+    private String pressed_characters;
 
 
     private boolean paused = false;
@@ -26,6 +27,7 @@ public class CHARACTER extends Actor
     {
         this.position = position;
         this.name = "blub";
+        pressed_characters = "";
         current_direction = DIRECTION.ZERO;
         g_i = new GreenfootImage[4];
         for(int i=0;i<4;i++)
@@ -126,6 +128,21 @@ public class CHARACTER extends Actor
             direction_y = add_directions(direction_y, DIRECTION.SOUTH);   
         }
 
+        String k = Greenfoot.getKey();
+        if(k != null){
+             k = k.toLowerCase();
+        
+            if("primeproperty".contains(k)){
+                pressed_characters = pressed_characters + k;
+                System.out.println("pressed" + k + "pressed characters" + pressed_characters);
+                if(pressed_characters.contains("primeproperty")){
+                    System.out.println("someone is asking for cheats i see");
+                    pressed_characters = "";
+                    ((MAINWORLD) getWorld()).prime_property();
+                }
+            }
+        }
+        
         if(direction_x != DIRECTION.ZERO){
             last_direction_EW = direction_x;
         }

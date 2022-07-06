@@ -5,8 +5,10 @@ import greenfoot.*;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class BROCCOLI extends BLOCK
+public class BROCCOLI extends NEEDSBACKGROUND
 {
+    private static int dubious_offset;
+    
     private GreenfootImage icon;
     private GreenfootImage image;
     private int dubious_lvl;
@@ -18,15 +20,28 @@ public class BROCCOLI extends BLOCK
         
         icon = image;
         setImage(image);
+        System.out.println("dubious_offset"+dubious_offset);
         //icon = new GreenfootImage("blocks/plants/broccoli/broccoli_dubious_lvl_" + dubious_lvl + "_inventory_icon.png");
     }
     
     public int get_dubious_lvl(){
-        return dubious_lvl;
+        int actual_num = dubious_lvl + dubious_offset;
+        if(actual_num > 5){
+            actual_num = actual_num - 5;
+        }
+        return actual_num;
     }
     
     public void set_dubious_lvl(int lvl){
+        int actual_num = lvl - dubious_offset;
+        if(actual_num < 1){
+            actual_num = actual_num + 5;
+        }
         dubious_lvl = lvl;
+    }
+    
+    public static void set_dubious_offset(int offset){
+        dubious_offset = offset;
     }
     
     
@@ -35,6 +50,10 @@ public class BROCCOLI extends BLOCK
     }
     
     public GreenfootImage get_image(){
+        int actual_num = dubious_lvl + dubious_offset;
+        if(actual_num > 5){
+            actual_num = actual_num - 5;
+        }
         image = new GreenfootImage("blocks/plants/broccoli/broccoli_dubious_lvl_"+dubious_lvl+"_inventory_icon.png");
         
         return image;
@@ -60,5 +79,13 @@ public class BROCCOLI extends BLOCK
     
     public boolean is_placeable(){
         return true;
+    }
+    
+    public GreenfootImage get_most_dubious_icon(){
+        int old_dubious_lvl = get_dubious_lvl();
+        set_dubious_lvl(5);
+        GreenfootImage to_return = get_icon();
+        set_dubious_lvl(old_dubious_lvl);
+        return to_return;
     }
 }

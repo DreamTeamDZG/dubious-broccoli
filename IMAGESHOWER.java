@@ -34,6 +34,13 @@ public class IMAGESHOWER extends Actor
         this.image = image;
     }
     
+    public IMAGESHOWER(GreenfootImage image, int y_size){
+        this.image = image;
+        double width_over_height = image.getWidth() / image.getHeight();
+        scale = new POSITION((int) (((double)y_size) * width_over_height), y_size);
+        image.scale((int) (((double)y_size) * width_over_height), y_size);
+    }
+    
     public IMAGESHOWER(int y_size){
         scale = new POSITION(y_size, -1);
     }
