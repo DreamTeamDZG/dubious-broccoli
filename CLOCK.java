@@ -69,31 +69,31 @@ public class CLOCK
         
         display_hour = new NUMBER(position, y_size, 2, 0);
         display_hour.init(main_world);
-        System.out.println("created display hour");
+        //System.out.println("created display hour");
         
         POSITION colon_pos = POSITION.add(position, new POSITION(display_hour.get_width(), 0));
         colon = new IMAGESHOWER(colon_path, y_size);
         main_world.addObject(colon, 0,0);
         colon.set_position(POSITION.add(colon_pos, new POSITION(0, -5)));
-        System.out.println("created display colon");
+        //System.out.println("created display colon");
         
         POSITION minute_pos = POSITION.add(colon_pos, new POSITION(colon.get_width(), 0));
         display_minute = new NUMBER(minute_pos, y_size, 2, 0);
         display_minute.init(main_world);
-        System.out.println("created display minute");
+        //System.out.println("created display minute");
         
         int max_height = Math.max(display_hour.get_height(), Math.max(display_minute.get_height(), colon.get_height()));
         POSITION day_colon_pos = POSITION.add(position, new POSITION(0, max_height));
         day_colon = new IMAGESHOWER(day_colon_path,y_size);
         //main_world.addObject(day_colon, 0, 0);
         day_colon.set_position(POSITION.add(day_colon_pos, new POSITION(5, -22)));
-        System.out.println("created display day colon");
+        //System.out.println("created display day colon");
         
         
         POSITION day_pos = POSITION.add(day_colon_pos, new POSITION(day_colon.get_width(),0));
         display_day = new NUMBER(day_pos, y_size, 2,0);
         //display_day.init(main_world);
-        System.out.println("created display day");
+        //System.out.println("created display day");
         
     }
     
@@ -110,22 +110,20 @@ public class CLOCK
             return;
         }
         Instant now = Instant.now();
-        millis = millis + (int) Duration.between(last, now).toMillis();
-        while(millis >= 1000){
-            millis = millis - 1000;
-            minute++;
+        millis = millis - (int) Duration.between(last, now).toMillis();
+        while(millis < 0){
+            millis = millis + 1000;
+            minute--;
             // debug
             //minute += 10;
             // debug
         }
-        while(minute >= 60){
-            minute = minute - 60;
-            hour++;
+        while(minute < 0){
+            minute = minute + 60;
+            hour--;
         }
-        while(hour >= 24){
-            hour = hour - 24;
-            day++;
-            set_random_weather();
+        while(hour < 0){
+            main_world.end_game(false);
         }
         last = now;
         

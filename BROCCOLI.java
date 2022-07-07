@@ -20,7 +20,7 @@ public class BROCCOLI extends NEEDSBACKGROUND
         
         icon = image;
         setImage(image);
-        System.out.println("dubious_offset"+dubious_offset);
+        //System.out.println("dubious_offset"+dubious_offset);
         //icon = new GreenfootImage("blocks/plants/broccoli/broccoli_dubious_lvl_" + dubious_lvl + "_inventory_icon.png");
     }
     
@@ -42,6 +42,10 @@ public class BROCCOLI extends NEEDSBACKGROUND
     
     public static void set_dubious_offset(int offset){
         dubious_offset = offset;
+    }
+    
+    public static int get_dubious_offset(){
+        return dubious_offset;
     }
     
     
@@ -79,13 +83,5 @@ public class BROCCOLI extends NEEDSBACKGROUND
     
     public boolean is_placeable(){
         return true;
-    }
-    
-    public GreenfootImage get_most_dubious_icon(){
-        int old_dubious_lvl = get_dubious_lvl();
-        set_dubious_lvl(5);
-        GreenfootImage to_return = get_icon();
-        set_dubious_lvl(old_dubious_lvl);
-        return to_return;
     }
 }

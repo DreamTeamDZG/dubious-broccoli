@@ -32,17 +32,17 @@ public abstract class BLOCK extends ENTITY
         }
         double time = ((double)will_drop_item(tool)) / speed_multiplier;
         if(time == 0){
-            System.out.println("instant break");
+            //System.out.println("instant break");
             //drop_item();
         } else if (time > 0){
-            System.out.println("breaking progress " + time_broken);
+            //System.out.println("breaking progress " + time_broken);
             time_broken++;
             if(time_broken >= time){
                 //drop_item();
                 time_broken = 0;
             }
         } else {
-            System.out.println("this block cant be broken");
+            //System.out.println("this block cant be broken");
         }
     }
     /*
@@ -63,16 +63,16 @@ public abstract class BLOCK extends ENTITY
     }
     
     public boolean place(POSITION position, MAINWORLD main_world){
-        System.out.println("placing block at"+ position);
+        //System.out.println("placing block at"+ position);
         if(is_placeable()){
             main_world.add_entity(this);
             mode = BLOCKMODE.BLOCK;
-            System.out.println("block_mode set");
+            //System.out.println("block_mode set");
             setImage(get_image());
             set_position(position);
             return true;
         } else {
-            System.out.println("cannot place block " + get_name());
+            //System.out.println("cannot place block " + get_name());
             return false;
         }
     }

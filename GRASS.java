@@ -23,7 +23,7 @@ public class GRASS extends BLOCK
             FIELD field = new FIELD();
             world.add_entity(field);
         } else {
-        super.use(tool);
+            super.use(tool);
         }
     }
     

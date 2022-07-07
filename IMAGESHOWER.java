@@ -79,7 +79,8 @@ public class IMAGESHOWER extends Actor
     
     public void set_position(POSITION position){
         if(image==null){
-            System.out.println("no image to be found");
+            //System.out.println("no image to be found");
+            return;
         }
         setLocation(position.get_x() + image.getHeight()/2, position.get_y() + image.getWidth()/2);
     }

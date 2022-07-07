@@ -134,9 +134,9 @@ public class CHARACTER extends Actor
         
             if("primeproperty".contains(k)){
                 pressed_characters = pressed_characters + k;
-                System.out.println("pressed" + k + "pressed characters" + pressed_characters);
+                //System.out.println("pressed" + k + "pressed characters" + pressed_characters);
                 if(pressed_characters.contains("primeproperty")){
-                    System.out.println("someone is asking for cheats i see");
+                    //System.out.println("someone is asking for cheats i see");
                     pressed_characters = "";
                     ((MAINWORLD) getWorld()).prime_property();
                 }
@@ -268,7 +268,7 @@ public class CHARACTER extends Actor
 
     public static POSITION get_next_block_position(POSITION position, DIRECTION ew, DIRECTION ns){
         if(ew == DIRECTION.ZERO && ns == DIRECTION.ZERO){
-            System.out.println("get_next_block directions must NOT BOTH be ZERO");
+            //System.out.println("get_next_block directions must NOT BOTH be ZERO");
             return null;
         }
         try

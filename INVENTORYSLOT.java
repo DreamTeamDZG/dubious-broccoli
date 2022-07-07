@@ -29,7 +29,7 @@ public class INVENTORYSLOT extends Actor
         item = null;
         count = 0;
         double y_size = y_size_ratio * height;
-        System.out.println("y_size"+ height);
+        //System.out.println("y_size"+ height);
         digit = new DIGIT(y_size);
     }
 
@@ -60,10 +60,10 @@ public class INVENTORYSLOT extends Actor
         //digit
         int x_offset = (int)(((double) offset_ratio_percentage.get_x()/100) * width);
         int y_offset = (int)(((double) offset_ratio_percentage.get_y()/100) * height);
-        System.out.println("offset x" + x_offset + "y" + y_offset);
+        //System.out.println("offset x" + x_offset + "y" + y_offset);
         int x = getX() + width/2 + x_offset;
         int y = getY() + height/2 + y_offset;
-        System.out.println("x" + x + "y" + y);
+        //System.out.println("x" + x + "y" + y);
         digit_position = new POSITION(x,y);
         //main_world.addObject(digit, x,y);
         //digit.set_number(0);

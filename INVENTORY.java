@@ -10,6 +10,7 @@ public class INVENTORY
     private INVENTORYSLOT[] slots;
     private static final int num_slots = 7;
     private static final double size_percent = 0.5;
+    private static final int y_offset = -MAINWORLD.block_size - 1;
     private GreenfootImage background_image;
     
     private int selected_slot;
@@ -34,7 +35,7 @@ public class INVENTORY
             slot.getImage().scale(size_per_slot, size_per_slot);
             background_image_selected.scale(size_per_slot, size_per_slot);
             
-            int y = screen_size_y - (int) (size_per_slot / 2);
+            int y = screen_size_y - (int) (size_per_slot / 2) + y_offset;
             int x = left_border + (int) (size_per_slot * (i + 0.5));
             main_world.addObject(slot, x, y);
             slot.init(main_world);

@@ -29,7 +29,10 @@ public class MAINWORLD extends World
     private COORDINATES coordinates;
     private INVENTORY inventory;
     private WEATHERSHOWER weathershower;
+    private IMAGESHOWER story;
     private static final int y_size = 18;
+    
+    private IMAGESHOWER frame;
 
     private static final POSITION character_offset_position = new POSITION(-70, 100);
 
@@ -48,13 +51,15 @@ public class MAINWORLD extends World
      * 
      */
     public MAINWORLD()
-    {    
+    {
         super(screen_size_x, screen_size_y, 1);
         top_left = new POSITION(0,0);
         entities = new ArrayList<ENTITY>();
         items = new ArrayList<BLOCK>();
         addObject(new CHARACTER(POSITION.add(middle, character_offset_position)), middle.get_x(), middle.get_y());
         setPaintOrder(DIGIT.class, IMAGESHOWER.class, CRAFTINGMENU.class, CHARACTER.class,INVENTORYSLOT.class, NEEDSBACKGROUND.class, ENTITY.class, BACKGROUND.class);
+        frame = new IMAGESHOWER("hud/frame.png", new POSITION(screen_size_x, screen_size_y));
+        addObject(frame, middle.get_x(), middle.get_y());
         crafting_menu = null;
     }
 
@@ -84,7 +89,7 @@ public class MAINWORLD extends World
             }
             catch (CloneNotSupportedException cnse)
             {
-                System.out.println("CloneNotSupportedExcpetion"+ cnse);
+                //System.out.println("CloneNotSupportedExcpetion"+ cnse);
             }
         }
     }
@@ -101,7 +106,7 @@ public class MAINWORLD extends World
 
     public void add_entity(ENTITY entity){
         if(entity instanceof BROCCOLI){
-            System.out.println("adding entity");
+            //System.out.println("adding entity");
         }
         if(!entities.contains(entity)){
             entities.add(entity);
@@ -295,13 +300,19 @@ public class MAINWORLD extends World
     public void end_game(boolean won){
         if(won){
             IMAGESHOWER win_screen = new IMAGESHOWER("hud/concrats_end_screen.png",(int) ((double)(screen_size_y)*0.60));
-            POSITION middle = new POSITION(screen_size_x/2, screen_size_y/2);
             addObject(win_screen, middle.get_x(), middle.get_y());
             //win_screen.set_position(POSITION.subtract(middle, win_screen.get_size()));
             pause();
             Greenfoot.delay(50);
+            //HERE
+            //Greenfoot.setWorld(new MAINWORLD());
+        } else {
+            IMAGESHOWER lose_screen = new IMAGESHOWER("hud/lose_screen.png", (int) ((double)(screen_size_y)*0.60));
+            addObject(lose_screen, middle.get_x(), middle.get_y());
+            pause();
+            Greenfoot.delay(50);
+            Greenfoot.setWorld(new STORY());
         }
-        Greenfoot.stop();
     }
 
     public void pause(){
@@ -318,6 +329,9 @@ public class MAINWORLD extends World
         //add_item_cheat();
         //change_weather_cheat();
         //cheats
+        if(!huds_added){
+            started();
+        }
         if(drop_broccoli > 0){
             drop_broccoli--;
         }
@@ -432,6 +446,7 @@ public class MAINWORLD extends World
         BROCCOLI.set_dubious_offset(Greenfoot.getRandomNumber(4));
         world_build();
         drop_all_broccolies();
+        frame.update_view();
     }
 
     public void world_build(){
@@ -448,8 +463,10 @@ public class MAINWORLD extends World
         add_inventory();
         add_clock();
         add_coordinates();
-        add_weathershower();
+        //add_story();
+        //add_weathershower();
     }
+    
 
     private void add_inventory(){
         inventory = new INVENTORY(new GreenfootImage("/inventory/inv_slot_big.png"), new GreenfootImage("/inventory/inv_slot_big.png"));
@@ -457,12 +474,12 @@ public class MAINWORLD extends World
     }
 
     private void add_clock(){
-        clock = new CLOCK(new POSITION(getWidth()-CLOCK.get_width_static()-10, 10), y_size, 0, 0, 0);
+        clock = new CLOCK(new POSITION(getWidth()-CLOCK.get_width_static()-block_size, block_size + 10), y_size, 0, 2, 40);
         clock.init(this);
     }
 
     private void add_coordinates(){
-        coordinates = new COORDINATES(new POSITION(0, 10));
+        coordinates = new COORDINATES(new POSITION(block_size + 10, block_size + 10));
         coordinates.init(this);
     }
 
@@ -487,10 +504,25 @@ public class MAINWORLD extends World
     }
     
     public void prime_property(){
-        IMAGESHOWER img = new IMAGESHOWER(get_all_broccolies().get(0).get_most_dubious_icon(),(int)(((double) screen_size_y) * 0.5 ));
+        List<BROCCOLI> broccolies = get_all_broccolies();
+        int image_num = 0;
+        for(BROCCOLI b: broccolies){
+            if(b.get_dubious_lvl() == 5){
+                image_num = 5 - b.get_dubious_offset();
+                if(image_num < 0){
+                    image_num = image_num + 5;
+                }
+                break;
+            }
+        }
+        IMAGESHOWER img = new IMAGESHOWER(new GreenfootImage("hud/broccoli_info_"+image_num+".png"),(int)(((double) screen_size_y) * 0.5 ));
         addObject(img, screen_size_x/2, screen_size_y/2);
-        Greenfoot.delay(30);
+        Greenfoot.delay(80);
         removeObject(img);
+    }
+    
+    public static int get_screen_size_y(){
+        return screen_size_y;
     }
 
     /*
